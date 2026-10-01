@@ -4,14 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0E4D3A">
-<meta name="color-scheme" content="light dark">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <title>Service DZ</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
-:root{color-scheme:light dark;--g:#0E4D3A;--g2:#146B50;--a:#E8A317;--bg:#F4F7F5;--c:#fff;--t:#14231D;--m:#5F736A;--l:#DCE5E0;--red:#D93838}
+:root{--g:#0E4D3A;--g2:#146B50;--a:#E8A317;--bg:#F8FAF9;--c:#ffffff;--t:#14231D;--m:#5F736A;--l:#E2EBE5;--red:#D93838;--vipbg:#FFF8E7;--vipborder:#E8A317}
 *{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
 body{font-family:Cairo,Tahoma,sans-serif;background:var(--bg);color:var(--t);padding-bottom:90px}
 header{background:linear-gradient(160deg,var(--g),#0a3b2c);color:#fff;padding:calc(env(safe-area-inset-top,0px) + 20px) 18px 22px;border-radius:0 0 28px 28px}
@@ -27,7 +26,7 @@ label{display:block;font-weight:600;font-size:14px;margin:14px 0 6px}
 .filters input{margin-bottom:8px}
 .frow{display:flex;gap:8px}.frow select{flex:1.2}
 .loc{flex:1;border:0;border-radius:14px;background:var(--l);color:var(--t);font:inherit;font-weight:800;font-size:14px;cursor:pointer}
-.hero{background:var(--c);border:1px solid var(--l);border-radius:20px;padding:14px;margin-bottom:14px}
+.hero{background:var(--c);border:1px solid var(--l);border-radius:20px;padding:14px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,0.03)}
 .stat{font-weight:800;font-size:15px}
 .perks{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0 2px}
 .perks div{background:var(--bg);border-radius:14px;padding:10px 4px;text-align:center;font-size:12px;font-weight:600}
@@ -41,10 +40,12 @@ label{display:block;font-weight:600;font-size:14px;margin:14px 0 6px}
 .deco{font-size:22px;letter-spacing:6px;margin-top:10px;opacity:.95}
 .cat{display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center;line-height:1.3;border:1.5px solid var(--l);background:var(--c);color:var(--t);padding:12px 2px;border-radius:20px;font:inherit;font-size:12px;cursor:pointer}
 .cat i{font-style:normal;font-size:28px;line-height:1;width:54px;height:54px;border-radius:50%;background:var(--tint);display:grid;place-items:center}
-.cat.on{background:rgba(20,107,80,.16);border-color:var(--g);color:var(--g);font-weight:800}
+.cat.on{background:rgba(20,107,80,.1);border-color:var(--g);color:var(--g);font-weight:800}
 h2{font-size:20px;font-weight:800}
 .sub{color:var(--m);font-size:14px;margin-top:2px}
-.card{background:var(--c);border-radius:20px;padding:14px;margin-top:12px;border:1px solid var(--l)}
+.card{background:var(--c);border-radius:20px;padding:14px;margin-top:12px;border:1px solid var(--l);box-shadow:0 2px 8px rgba(0,0,0,0.03)}
+.card.vip{background:var(--vipbg);border:2px solid var(--vipborder);position:relative}
+.vip-badge{position:absolute;top:-10px;left:16px;background:var(--a);color:#14231D;font-size:11px;font-weight:800;padding:2px 10px;border-radius:99px}
 .top{display:flex;gap:12px;align-items:flex-start}
 .ic{width:52px;height:52px;border-radius:14px;background:#FFEFC2;color:#14231D;display:grid;place-items:center;font-size:28px;flex:none}
 .top h3{font-size:16px;line-height:1.4}
@@ -57,21 +58,15 @@ h2{font-size:20px;font-weight:800}
 .b1{background:var(--g2);color:#fff}.b2{background:#25D366;color:#fff}.b3{background:var(--c);border:1.5px solid var(--l);color:var(--t)}.b4{background:var(--c);border:1.5px solid #ffcccc;color:var(--red)}
 .btn:disabled{opacity:.6}
 .empty{text-align:center;color:var(--m);padding:36px 10px}
-nav{position:fixed;bottom:0;inset-inline:0;background:var(--c);border-top:1px solid var(--l);display:flex;padding:8px 0 calc(env(safe-area-inset-bottom,0px) + 8px);z-index:100}
+nav{position:fixed;bottom:0;inset-inline:0;background:var(--c);border-top:1px solid var(--l);display:flex;padding:8px 0 calc(env(safe-area-inset-bottom,0px) + 8px);z-index:100;box-shadow:0 -2px 10px rgba(0,0,0,0.03)}
 nav button{flex:1;border:0;background:none;font:inherit;font-size:12px;color:var(--m);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
 nav button.on{color:var(--g);font-weight:800}
 nav span{font-size:24px}
 .page{display:none}.page.on{display:block}
-.tip{background:var(--c);border-radius:14px;padding:12px;margin-top:8px;border-right:4px solid var(--a);font-size:13px;line-height:1.7}
-.box{background:var(--c);border:1px solid var(--l);border-radius:20px;padding:16px;margin-top:12px}
+.tip{background:var(--c);border-radius:14px;padding:12px;margin-top:8px;border-right:4px solid var(--a);font-size:13px;line-height:1.7;border:1px solid var(--l)}
+.box{background:var(--c);border:1px solid var(--l);border-radius:20px;padding:16px;margin-top:12px;box-shadow:0 2px 8px rgba(0,0,0,0.03)}
 .toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:#14231D;color:#fff;padding:10px 20px;border-radius:99px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .25s;z-index:1000;max-width:90%;text-align:center}
 .toast.on{opacity:1}
-@media (prefers-color-scheme:dark){
-:root{--bg:#0F1512;--c:#18211D;--t:#EAF2EE;--m:#9BB0A6;--l:#2B3A33}
-.cat.on,nav button.on{color:#7FD1AE}
-.g-a{--tint:#4a3a1c}.g-b{--tint:#4a2434}.g-c{--tint:#1f3550}.g-d{--tint:#1f4030}
-.cat.on{border-color:#7FD1AE}
-}
 </style>
 </head>
 <body>
@@ -87,6 +82,13 @@ nav span{font-size:24px}
     <div class="perks"><div><i>🆓</i>النشر مجاني</div><div><i>📞</i>اتصال مباشر</div><div><i>📍</i>قريب منك</div></div>
     <div class="btns"><button class="btn b1" data-go="add">➕ انشر إعلانك مجاناً</button><button class="btn b3" data-go="ask">🙋 اطلب ما تحتاجه</button></div>
   </div>
+
+  <div class="box" style="background:var(--vipbg);border-color:var(--vipborder);margin-bottom:14px;text-align:center;">
+    <h3 style="font-size:16px;color:#855c00;margin-bottom:4px">⭐ هل لديك محل أو خدمة وتريد تمييز إعلانك؟</h3>
+    <p class="sub" style="font-size:13px;margin-bottom:10px">اجعل إعلانك يظهر في الواجهة دائماً ودع الزوار يرونه أولاً عبر الدفع بـ CCP / Baridimob.</p>
+    <a class="btn" style="background:var(--a);color:#14231D;font-weight:800;" target="_blank" rel="noopener" href="https://wa.me/213000000000?text=سلام عليكم، أريد تثبيت وتمييز إعلاني في تطبيق Service DZ">🌟 تواصل معنا لتثبيت إعلانك</a>
+  </div>
+
   <div class="filters">
     <input id="q" placeholder="🔍 ابحث: سباك، قندورة، سيارة..." aria-label="بحث">
     <div class="frow"><select id="wf"></select><button class="loc" id="loc">📍 استخدم موقعي</button></div>
@@ -227,10 +229,14 @@ function render(){
   if(loadErr){$("list").innerHTML=`<div class="empty">${loadErr}<div class="btns"><button class="btn b3" id="retry">إعادة المحاولة</button></div></div>`;return}
   const q=Q.trim().toLowerCase();
   const F=L.filter(s=>(!cat||s.category===cat)&&(!WF||s.wilaya===WF)&&(!q||(s.title+s.name+s.description+s.wilaya+s.category).toLowerCase().includes(q)));
-  $("list").innerHTML=F.length?F.map(cardHtml).join(""):'<div class="empty">لا توجد إعلانات مطابقة. كن أول من ينشر من تبويب "اعرض".</div>';
+  $("list").innerHTML=F.length?F.map(s=>cardHtml(s,false)).join(""):'<div class="empty">لا توجد إعلانات مطابقة. كن أول من ينشر من تبويب "اعرض".</div>';
 }
-function cardHtml(s,own){
-  return `<article class="card">
+function cardHtml(s,isMine){
+  const uid=SES&&SES.user&&SES.user.id;
+  const showDelete=isMine||(uid&&s.user_id===uid);
+  const isVip = s.is_vip;
+  return `<article class="card ${isVip?'vip':''}">
+   ${isVip?'<div class="vip-badge">⭐ إعلان مميز</div>':''}
    <div class="top"><div class="ic">${ICONS[s.category]||"🛒"}</div>
     <div style="flex:1"><h3>${esc(s.title)}</h3>
      <div class="meta">${esc(s.name)}</div>
@@ -239,7 +245,7 @@ function cardHtml(s,own){
    <div><span class="price">${fmt(s.price)}</span><span class="tag">${esc(s.price_type)}</span></div>
    <div class="btns"><a class="btn b1" href="tel:${esc(s.phone)}">📞 اتصال</a>
     <a class="btn b2" target="_blank" rel="noopener" href="${wa(s.phone)}">واتساب</a></div>
-   <div class="btns">${own?`<button class="btn b4" data-del="${esc(s.id)}" style="padding:6px;font-size:12px">🗑️ حذف إعلاني</button>`:`<button class="btn b4" data-rep="${esc(s.id)}" style="padding:6px;font-size:12px">🚩 إبلاغ</button>`}</div>
+   <div class="btns">${showDelete?`<button class="btn b4" data-del="${esc(s.id)}" style="padding:6px;font-size:12px">🗑️ حذف إعلاني</button>`:`<button class="btn b4" data-rep="${esc(s.id)}" style="padding:6px;font-size:12px">🚩 إبلاغ</button>`}</div>
   </article>`;
 }
 function renderAsk(){
