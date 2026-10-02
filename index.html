@@ -451,5 +451,13 @@ $("wf").innerHTML='<option value="">كل الولايات</option>'+opt(WIL);
 checkRecovery();renderCats();applyAuth();loadAll();if(REC)go("mine");
 if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js"));
 </script>
-</body>
+</body><script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js')
+        .then((reg) => console.log('Service Worker registered', reg))
+        .catch((err) => console.log('Service Worker registration failed', err));
+    });
+  }
+</script>
 </html>
