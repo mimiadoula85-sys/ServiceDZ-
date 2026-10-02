@@ -132,4 +132,4 @@ $("save").onclick=async()=>{let t=$("ft").value.trim(),n=$("fn").value.trim(),ph
 $("rsave").onclick=async()=>{let t=$("rt").value.trim(),ph=$("rph").value.trim();if(!t||!okPh(ph))return toast("أكمل الطلب ورقم الهاتف");try{await api("/rest/v1/requests",{method:"POST",body:{title:t,category:$("rc").value,wilaya:$("rw").value,budget:+$("rb").value||0,phone:ph}});toast("تم نشر طلبك ✔");loadAll()}catch(x){toast(x.message)}}
 $("fc").innerHTML=opt(CATS);$("rc").innerHTML=opt(CATS);$("fw").innerHTML=opt(WIL);$("rw").innerHTML=opt(WIL);$("wf").innerHTML='<option value="">كل الولايات</option>'+opt(WIL);
 renderMine();loadAll();if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js"));
-</script></body></html>
+</script><script src="premium.js"></script></body></html>
