@@ -2,18 +2,21 @@
 (function(){
 
 /* ===== بيانات الدفع والأسعار ===== */
-const PAY = {
-  ccp: 002028098710
-  اسم صاحب حساب meryem
-  
-  baridi:لايوجد لدي 
 
+  
+    
+    
+  const PAY = {
+  ccp: 002028098710
+  name: "meryem",
+  baridi: "غير متوفر",
   prices: {
     featured_1m: "300",
     featured_3m: "800",
     featured_12m: "2500",
     ad_1m: "1500"
   }
+};
 };
 /* ================================ */
 
