@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0E4D3A">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Service DZ</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--g:#0E4D3A;--g2:#146B50;--a:#E8A317;--bg:#F4F7F5;--c:#fff;--t:#14231D;--m:#5F736A;--l:#DCE5E0;--red:#D93838}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+body{font-family:Cairo,Tahoma,sans-serif;background:var(--bg);color:var(--t);padding-bottom:90px}
+header{background:linear-gradient(160deg,var(--g),#0a3b2c);color:#fff;padding:20px 18px 22px;border-radius:0 0 28px 28px}
+header h1{font-size:28px;font-weight:800;direction:ltr;text-align:right}
+header h1 b{background:var(--a);color:#14231D;font-size:20px;padding:0 10px;border-radius:10px;margin-inline-start:4px}
+header p{font-size:14px;opacity:.9;margin-top:6px}.deco{font-size:22px;letter-spacing:6px;margin-top:10px}
+main{padding:16px;max-width:640px;margin:auto}
+input,select,textarea{width:100%;border:1.5px solid var(--l);border-radius:14px;padding:12px;font:inherit;background:var(--c);color:var(--t);outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--g)}textarea{min-height:80px;resize:vertical}
+label{display:block;font-weight:600;font-size:14px;margin:14px 0 6px}
+.hero,.box,.card{background:var(--c);border:1px solid var(--l);border-radius:20px;padding:14px;margin-bottom:12px}
+.hero{margin-top:12px}.stat{font-weight:800;font-size:15px}.sub,.meta{color:var(--m);font-size:13px;line-height:1.7}
+.perks{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
+.perks div{background:var(--bg);border-radius:14px;padding:10px 4px;text-align:center;font-size:12px;font-weight:600}.perks i{display:block;font-style:normal;font-size:26px}
+.filters input{margin-bottom:8px}.frow{display:flex;gap:8px}.frow select{flex:1.2}
+.loc{flex:1;border:0;border-radius:14px;background:var(--l);color:var(--t);font:inherit;font-weight:800}
+.cats{margin-top:12px}.grp{margin-top:14px}.grp h4{font-size:15px;margin-bottom:8px;padding-inline-start:10px;border-inline-start:4px solid var(--a)}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.cat{display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center;border:1.5px solid var(--l);background:var(--c);color:var(--t);padding:12px 2px;border-radius:20px;font:inherit;font-size:12px;cursor:pointer}
+.cat i{font-style:normal;font-size:28px;line-height:1;width:54px;height:54px;border-radius:50%;background:#FFE9C7;display:grid;place-items:center}.cat small{font-size:10px;color:var(--m)}
+.cat.on{background:rgba(20,107,80,.16);border-color:var(--g);font-weight:800}
+h2{font-size:20px;font-weight:800;margin:18px 0 4px}.page{display:none}.page.on{display:block}
+.btns{display:flex;gap:8px;margin-top:10px}.btn{flex:1;text-align:center;border:0;border-radius:12px;padding:10px;font:inherit;font-weight:700;cursor:pointer;text-decoration:none;font-size:13px}
+.b1{background:var(--g2);color:#fff}.b2{background:#25D366;color:#fff}.b3{background:var(--c);border:1.5px solid var(--l);color:var(--t)}.b4{background:var(--c);border:1.5px solid #ffcccc;color:var(--red)}.b5{background:linear-gradient(135deg,#f2994a,#f2c94c);color:#14231D}
+.top{display:flex;gap:12px;align-items:flex-start}.ic{width:52px;height:52px;border-radius:14px;background:#FFEFC2;display:grid;place-items:center;font-size:28px;flex:none}
+.card.feat{border:2px solid var(--a)}.fbadge{display:inline-block;background:var(--a);color:#14231D;font-size:11px;padding:2px 8px;border-radius:99px;font-weight:800;margin-inline-start:6px}
+.price{font-weight:800;font-size:16px}.tag{display:inline-block;background:var(--l);color:var(--m);font-size:11px;padding:3px 10px;border-radius:99px;font-weight:800;margin-inline-start:8px}
+.desc{font-size:14px;color:var(--m);line-height:1.7;margin:8px 0}.empty{text-align:center;color:var(--m);padding:25px 10px}
+nav{position:fixed;bottom:0;inset-inline:0;background:var(--c);border-top:1px solid var(--l);display:flex;padding:8px 0;z-index:100}
+nav button{flex:1;border:0;background:none;font:inherit;font-size:12px;color:var(--m);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}nav button.on{color:var(--g);font-weight:800}nav span{font-size:24px}
+.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:#14231D;color:#fff;padding:10px 20px;border-radius:99px;font-size:14px;opacity:0;pointer-events:none;transition:.25s;z-index:1000}.toast.on{opacity:1}
+.liveHero{background:linear-gradient(135deg,#8d1515,#d93838);color:#fff;border-radius:20px;padding:18px;margin:10px 0 14px}
+.liveHero h2{margin:0;color:#fff}.liveHero p{font-size:13px;opacity:.92;margin-top:4px}
+.liveCard{border:2px solid #d93838}.liveDot{display:inline-block;width:10px;height:10px;background:#d93838;border-radius:50%;margin-left:5px}
+.note{background:rgba(232,163,23,.12);border-right:4px solid var(--a);padding:12px;border-radius:12px;font-size:13px;line-height:1.7}
+.ovl{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:flex-end;justify-content:center;z-index:500}.ovl.on{display:flex}
+.sheet{background:var(--c);color:var(--t);width:100%;max-width:640px;max-height:92vh;overflow:auto;border-radius:24px 24px 0 0;padding:18px}
+video{width:100%;border-radius:16px;background:#000;max-height:60vh}
+@media(prefers-color-scheme:dark){:root{--bg:#0F1512;--c:#18211D;--t:#EAF2EE;--m:#9BB0A6;--l:#2B3A33}.cat.on{color:#7FD1AE;border-color:#7FD1AE}}
+</style>
+</head>
+<body>
+<header><h1>Service<b>DZ</b></h1><p>اعثر على الخدمة أو المنتج اللي تحتاجه قريب منك</p><div class="deco">🍰 🎨 👗 ⚒️ 🪚 📚 🧵</div></header>
+<main>
+<section class="page on" id="p-home">
+<div class="liveHero"><h2>🔴 البث المباشر</h2><p>شاهد عروض التجار والبثوث المباشرة من مكان واحد.</p><div class="btns"><button class="btn" style="background:#fff;color:#8d1515" data-go="live">📺 مشاهدة البثوث</button><button class="btn" style="background:#E8A317;color:#14231D" id="startLive">🔴 ابدأ بثك</button></div></div>
+<div class="hero"><div class="stat" id="stat"></div><div class="perks"><div><i>🤝</i>سُومة وتفاوض</div><div><i>📄</i>اتفاق مكتوب</div><div><i>📍</i>قريب منك</div></div><div class="btns"><button class="btn b1" data-go="add">➕ انشر إعلانك مجاناً</button><button class="btn b3" data-go="ask">🙋 اطلب ما تحتاجه</button></div></div>
+<div class="filters"><input id="q" placeholder="🔍 ابحث: سباك، قندورة، هاتف..."><div class="frow"><select id="wf"></select><button class="loc" id="loc">📍 موقعي</button></div></div><div class="cats" id="cats"></div><div id="list"></div>
+</section>
+
+<section class="page" id="p-live">
+<h2>🔴 البث المباشر</h2><p class="sub">هنا تظهر البثوث التي يتم ربطها بخدمة البث المباشر.</p>
+<div class="box"><div class="note">للحماية والأمان، البث الحقيقي يحتاج خدمة بث وخادم آمن لإنشاء مفاتيح البث. هذه النسخة جهزت لك واجهة البث، وبعد ربط خدمة البث يمكن تشغيل الكاميرا للمشاهدين.</div><div class="btns"><button class="btn b1" id="goLiveSetup">🎥 إعداد بثي</button></div></div>
+<div id="liveList"><div class="empty">لا توجد بثوث مباشرة منشورة حاليًا.</div></div>
+</section>
+
+<section class="page" id="p-ask"><h2>اطلب خدمة أو منتج</h2><p class="sub">اكتب ما تحتاجه ويتواصل معك من يقدمه.</p>
+<div class="box" id="askLogin">سجّل الدخول لتنشر طلباً.<div class="btns"><button class="btn b1" data-go="mine">تسجيل الدخول</button></div></div>
+<div id="askForm"><label>ماذا تحتاج؟</label><input id="rt" maxlength="60"><label>الفئة</label><select id="rc"></select><label>الولاية</label><select id="rw"></select><label>ميزانيتك (دج)</label><input id="rb" type="number"><label>رقم هاتفك</label><input id="rph" type="tel"><div class="btns"><button class="btn b1" id="rsave">نشر طلبي</button></div></div><h2>طلبات الناس</h2><div id="reqs"></div></section>
+
+<section class="page" id="p-add"><h2>اعرض خدمة أو منتج</h2><p class="sub">النشر مجاني ويراه كل من يفتح التطبيق.</p>
+<div class="box" id="addLogin">سجّل الدخول لتنشر إعلاناً.<div class="btns"><button class="btn b1" data-go="mine">تسجيل الدخول</button></div></div>
+<div id="addForm"><label>العنوان</label><input id="ft" maxlength="60"><label>اسمك أو لقبك التجاري</label><input id="fn" maxlength="40"><label>الفئة</label><select id="fc"></select><label>الولاية</label><select id="fw"></select><label>السعر (دج)</label><input id="fp" type="number"><label>نوع السعر</label><select id="ft2"><option>سعر ثابت</option><option>قابل للتفاوض</option><option>يبدأ من</option></select><label>رقم الهاتف أو واتساب</label><input id="fph" type="tel"><label>الوصف</label><textarea id="fd" maxlength="300"></textarea><div class="btns"><button class="btn b1" id="save">نشر الآن</button></div></div></section>
+
+<section class="page" id="p-mine"><h2>حسابي</h2>
+<div class="box" id="authBox"><p class="sub">سجّل الدخول لتنشر وتستلم السُّومات وتدير إعلاناتك.</p><label>البريد الإلكتروني</label><input id="em" type="email" dir="ltr"><label>كلمة السر</label><input id="pw" type="password" dir="ltr"><div class="btns"><button class="btn b1" id="login">دخول</button><button class="btn b3" id="signup">إنشاء حساب</button></div><div class="btns"><button class="btn b3" id="forgot">نسيت كلمة السر؟</button></div></div>
+<div id="userBox"><div class="box"><div class="meta" id="who"></div><div class="btns"><button class="btn b3" id="logout">تسجيل الخروج</button></div></div>
+<h2>🤝 السُّومات والاتفاقات</h2><div id="offBox"></div>
+<h2>⭐ العضوية المميزة</h2><div class="box" id="memBox"></div>
+<h2>🔴 البث المباشر للتاجر</h2><div class="box"><p class="sub">يمكنك تجهيز بثك المباشر. التشغيل الحقيقي يحتاج ربط خدمة بث آمنة من لوحة المشروع.</p><div class="btns"><button class="btn b5" id="myLive">🎥 تجهيز بث مباشر</button></div></div>
+<h2>إعلاناتي</h2><div id="mine"></div>
+<div class="box"><p class="sub">حذف الحساب يمسح حسابك وإعلاناتك وطلباتك وسُوماتك نهائياً.</p><div class="btns"><button class="btn b4" id="delacc">🗑️ حذف حسابي</button></div></div></div>
+</section>
+</main>
+<nav><button class="on" data-p="home"><span>🏠</span>الرئيسية</button><button data-p="live"><span>🔴</span>بث مباشر</button><button data-p="add"><span>➕</span>اعرض</button><button data-p="mine"><span>👤</span>حسابي</button></nav>
+<div class="toast" id="toast"></div><div class="ovl" id="ovl"><div class="sheet" id="sheet"></div></div>
+
+<script>
+const SB="https://prajhrpbtmooolqtofrf.supabase.co";
+const KEY="sb_publishable_8ZYtEf8p3hoVrPyv52CzVQ_VWkCWUFg";
+const CATG=[
+{t:"🛠️ الحرف والصيانة",c:[["سباكة","🔧"],["كهرباء","⚡"],["دهن وبناء","🏗️"],["حدادة","⚒️"],["نجارة","🪚"],["ميكانيك","🚗"],["تكييف وتبريد","❄️"],["تنظيف","🧹"],["تصليح هواتف","📲"],["لحام وألمنيوم","🔩"],["زجاج ومرايا","🪟"],["بلاط وجبس","🧱"]]},
+{t:"🎨 فنون وإبداع",c:[["رسم وفن","🎨"],["تصوير","📷"],["خياطة وتطريز","🧵"],["طبخ وحلويات","🍰"],["حفلات ومناسبات","🎉"],["حلاقة وتجميل","💇"],["ألعاب وهدايا","🎁"],["أثاث وديكور","🛋️"],["أعراس وزفاف","💍"],["مطاعم وأكل","🍽️"],["موسيقى وغناء","🎤"],["ورد وتنسيق","💐"]]},
+{t:"🎓 تعليم وخدمات",c:[["دروس","🎓"],["برمجة وتصميم","💻"],["ترجمة وكتابة","✍️"],["صحة ورياضة","💪"],["نقل وشحن","🚚"],["حدائق وزراعة","🌱"],["حيوانات","🐑"],["رعاية أطفال","🧸"],["حجامة وأعشاب","🌿"],["توصيل طلبات","🛵"],["سياقة وتعليم","🚘"],["حراسة وأمن","🛡️"]]},
+{t:"🛒 بيع وشراء",c:[["ملابس","👗"],["كتب","📚"],["إلكترونيات","📱"],["سيارات","🚙"],["عقارات","🏠"],["أجهزة منزلية","📺"],["منتجات منزلية","🍯"],["أحذية وحقائب","👟"],["ساعات ومجوهرات","⌚"],["دراجات ودراجات نارية","🏍️"],["أدوات ومعدات","🧰"],["أخرى","✨"]]}];
+const CATS=CATG.flatMap(g=>g.c.map(x=>x[0])),ICONS=Object.fromEntries(CATG.flatMap(g=>g.c));
+const WIL=["أدرار","الشلف","الأغواط","أم البواقي","باتنة","بجاية","بسكرة","بشار","البليدة","البويرة","تمنراست","تبسة","تلمسان","تيارت","تيزي وزو","الجزائر","الجلفة","جيجل","سطيف","سعيدة","سكيكدة","سيدي بلعباس","عنابة","قالمة","قسنطينة","المدية","مستغانم","المسيلة","معسكر","ورقلة","وهران","البيض","إليزي","برج بوعريريج","بومرداس","الطارف","تندوف","تيسمسيلت","الوادي","خنشلة","سوق أهراس","تيبازة","ميلة","عين الدفلى","النعامة","عين تموشنت","غرداية","غليزان","تيميمون","برج باجي مختار","أولاد جلال","بني عباس","عين صالح","عين قزام","تقرت","جانت","المغير","المنيعة","آفلو","بريكة","قصر الشلالة","مسعد","عين وسارة","بوسعادة","الأبيض سيدي الشيخ","القنطرة","بئر العاتر","قصر البخاري","العريشة"].map((w,i)=>String(i+1).padStart(2,"0")+" - "+w);
+const $=id=>document.getElementById(id),esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]),toast=m=>{let t=$("toast");t.textContent=m;t.classList.add("on");setTimeout(()=>t.classList.remove("on"),2800)},fmt=n=>Number(n).toLocaleString("ar-DZ")+" دج",short=w=>String(w||"").replace(/^\d+ - /,""),opt=a=>a.map(c=>`<option>${c}</option>`).join(""),wa=p=>"https://wa.me/213"+String(p||"").replace(/^0/,""),okPh=p=>/^0[567]\d{8}$/.test(p);
+let SES=null;try{SES=JSON.parse(localStorage.getItem("sdz_ses")||"null")}catch(e){}
+const uidOf=()=>SES?.user?.id;let L=[],R=[],OFF=[],SET={},FEAT=new Set(),cat="",Q="",WF="",loaded=false;
+async function raw(path,{method="GET",body,auth=true}={}){let h={apikey:KEY};if(body)h["Content-Type"]="application/json";if(auth&&SES)h.Authorization="Bearer "+SES.access_token;let r=await fetch(SB+path,{method,headers:h,body:body?JSON.stringify(body):undefined}),t=await r.text(),d=null;try{d=t?JSON.parse(t):null}catch(e){}if(!r.ok)throw Error(d?.message||d?.msg||"خطأ "+r.status);return d}
+async function api(p,o){return raw(p,o)}
+async function loadAll(){
+try{L=await api("/rest/v1/listings?select=*&order=created_at.desc&limit=200")}catch(e){L=[]}
+try{R=await api("/rest/v1/requests?select=*&order=created_at.desc&limit=100")}catch(e){R=[]}
+try{let f=await raw("/rest/v1/rpc/featured_users",{method:"POST",body:{},auth:false});FEAT=new Set((f||[]).map(x=>x.user_id))}catch(e){FEAT=new Set()}
+if(!Object.keys(SET).length)try{let s=await raw("/rest/v1/app_settings?select=key,value",{auth:false});SET=Object.fromEntries((s||[]).map(x=>[x.key,x.value]))}catch(e){}
+if(SES)try{OFF=await api("/rest/v1/offers?select=*&order=created_at.desc&limit=100")}catch(e){OFF=[]}
+loaded=true;renderCats();render();renderAsk();renderMine()
+}
+function renderCats(){$("cats").innerHTML=CATG.map(g=>`<div class="grp"><h4>${g.t}</h4><div class="grid">${g.c.map(([c,ic])=>`<button class="cat ${c===cat?"on":""}" data-c="${c}"><i>${ic}</i>${c}<small>${L.filter(x=>x.category===c).length||""}</small></button>`).join("")}</div></div>`).join("");$("stat").textContent=`${L.length} إعلان · ${R.length} طلب`}
+function card(s,own=false){let f=FEAT.has(s.user_id);return `<article class="card ${f?"feat":""}"><div class="top"><div class="ic">${ICONS[s.category]||"🛒"}</div><div style="flex:1"><h3>${esc(s.title)}</h3><div class="meta">${esc(s.name)} ${f?'<span class="fbadge">⭐ تاجر مميز</span>':""}</div><div class="meta">📍 ${esc(short(s.wilaya))}</div></div></div><p class="desc">${esc(s.description)}</p><div><span class="price">${fmt(s.price)}</span><span class="tag">${esc(s.price_type)}</span></div><div class="btns"><a class="btn b1" href="tel:${esc(s.phone)}">📞 اتصال</a><a class="btn b2" target="_blank" href="${wa(s.phone)}">واتساب</a></div>${own?`<div class="btns"><button class="btn b4" data-del="${esc(s.id)}">🗑️ حذف</button></div>`:`<div class="btns"><button class="btn b5" data-bargain="${esc(s.id)}">🔥 اقترح سُومتك</button></div>`}</article>`}
+function render(){let q=Q.toLowerCase().trim(),F=L.filter(s=>(!cat||s.category===cat)&&(!WF||s.wilaya===WF)&&(!q||(s.title+s.name+s.description+s.wilaya+s.category).toLowerCase().includes(q)));F.sort((a,b)=>(FEAT.has(b.user_id)?1:0)-(FEAT.has(a.user_id)?1:0));$("list").innerHTML=F.length?F.map(card).join(""):'<div class="empty">لا توجد إعلانات مطابقة.</div>'}
+function renderAsk(){$("reqs").innerHTML=R.length?R.map(r=>`<article class="card"><h3>${esc(r.title)}</h3><div class="meta">${esc(short(r.wilaya))} · ${esc(r.category)}${r.budget?" · "+fmt(r.budget):""}</div><div class="btns"><a class="btn b1" href="tel:${esc(r.phone)}">📞 اتصال</a><a class="btn b2" href="${wa(r.phone)}">واتساب</a></div></article>`).join(""):'<div class="empty">لا توجد طلبات بعد.</div>'}
+function renderMine(){let on=!!uidOf();$("authBox").style.display=on?"none":"block";$("userBox").style.display=on?"block":"none";$("askForm").style.display=on?"block":"none";$("askLogin").style.display=on?"none":"block";$("addForm").style.display=on?"block":"none";$("addLogin").style.display=on?"none":"block";if(!on)return;$("who").textContent="مسجّل الدخول: "+(SES.user?.email||"");let M=L.filter(s=>s.user_id===uidOf());$("mine").innerHTML=M.length?M.map(s=>card(s,true)).join(""):'<div class="empty">لم تنشر أي إعلان بعد.</div>';$("offBox").innerHTML=OFF.length?OFF.map(o=>`<article class="card"><b>${esc(o.listing_title||"إعلان")}</b><div class="meta">السومة: ${fmt(o.amount)} · ${esc(o.status||"")}</div></article>`).join(""):'<div class="empty">لا توجد سومات بعد.</div>';$("memBox").innerHTML='<p class="sub">عضوية التاجر المميز وإدارة الاشتراكات تبقى كما هي في قاعدة بيانات مشروعك.</p>'}
+function go(p){document.querySelectorAll(".page").forEach(x=>x.classList.toggle("on",x.id==="p-"+p));document.querySelectorAll("nav button").forEach(x=>x.classList.toggle("on",x.dataset.p===p));if(p==="home"||p==="live"||p==="mine")loadAll();scrollTo(0,0)}
+document.querySelector("nav").onclick=e=>{let b=e.target.closest("button");if(b)go(b.dataset.p)}
+document.body.addEventListener("click",e=>{let g=e.target.closest("[data-go]");if(g)go(g.dataset.go);if(e.target.id==="startLive"||e.target.id==="goLiveSetup"||e.target.id==="myLive"){if(!SES){toast("سجّلي الدخول أولاً");return go("mine")}openLiveSetup()}});
+function openLiveSetup(){openSheet(`<h2 style="margin-top:0">🔴 تجهيز البث المباشر</h2><p class="sub">هذه الواجهة جاهزة، لكن تشغيل بث حقيقي للعديد من المشاهدين يحتاج ربط خدمة بث مثل Cloudflare Stream عبر خادم آمن. لا تضعي مفاتيح سرية داخل index.html.</p><div class="note">بعد الربط يمكن للتاجر تشغيل الكاميرا، الحصول على رابط البث، ونشره للزبائن. كما يمكن فرض اشتراك مدفوع على البث.</div><div class="btns"><button class="btn b1" data-close>حسنًا</button></div>`)}
+function openSheet(h){$("sheet").innerHTML=h;$("ovl").classList.add("on")}function closeSheet(){$("ovl").classList.remove("on")}
+$("ovl").onclick=e=>{if(e.target===$("ovl")||e.target.closest("[data-close]"))closeSheet()}
+$("cats").onclick=e=>{let b=e.target.closest("[data-c]");if(b){cat=cat===b.dataset.c?"":b.dataset.c;renderCats();render()}}
+$("q").oninput=e=>{Q=e.target.value;render()};$("wf").onchange=e=>{WF=e.target.value;render()}
+$("list").onclick=async e=>{let d=e.target.closest("[data-del]"),b=e.target.closest("[data-bargain]");if(d&&confirm("حذف إعلانك؟"))try{await api("/rest/v1/listings?id=eq."+encodeURIComponent(d.dataset.del),{method:"DELETE"});toast("تم الحذف ✔");loadAll()}catch(x){toast(x.message)}if(b)toast("السومة ستُضاف في النسخة الكاملة من نظام التفاوض")}
+$("login").onclick=()=>auth("in");$("signup").onclick=()=>auth("up");
+async function auth(k){let email=$("em").value.trim(),password=$("pw").value;if(!email||password.length<6)return toast("اكتب البريد وكلمة سر من 6 أحرف على الأقل");try{let d=await raw(k==="up"?"/auth/v1/signup":"/auth/v1/token?grant_type=password",{method:"POST",body:{email,password},auth:false});if(d?.access_token){SES={access_token:d.access_token,user:d.user};localStorage.setItem("sdz_ses",JSON.stringify(SES));toast("مرحباً ✔");renderMine();loadAll()}else toast("تم إنشاء الحساب. أكّد بريدك ثم اضغط دخول")}catch(x){toast(x.message)}}
+$("logout").onclick=()=>{SES=null;localStorage.removeItem("sdz_ses");renderMine();toast("تم تسجيل الخروج")}
+$("save").onclick=async()=>{let t=$("ft").value.trim(),n=$("fn").value.trim(),ph=$("fph").value.trim(),d=$("fd").value.trim();if(!t||!n||!d||!okPh(ph))return toast("أكمل البيانات ورقم الهاتف");try{await api("/rest/v1/listings",{method:"POST",body:{title:t,name:n,category:$("fc").value,wilaya:$("fw").value,price:+$("fp").value||0,price_type:$("ft2").value,phone:ph,description:d}});toast("تم النشر ✔");go("home")}catch(x){toast(x.message)}}
+$("rsave").onclick=async()=>{let t=$("rt").value.trim(),ph=$("rph").value.trim();if(!t||!okPh(ph))return toast("أكمل الطلب ورقم الهاتف");try{await api("/rest/v1/requests",{method:"POST",body:{title:t,category:$("rc").value,wilaya:$("rw").value,budget:+$("rb").value||0,phone:ph}});toast("تم نشر طلبك ✔");loadAll()}catch(x){toast(x.message)}}
+$("fc").innerHTML=opt(CATS);$("rc").innerHTML=opt(CATS);$("fw").innerHTML=opt(WIL);$("rw").innerHTML=opt(WIL);$("wf").innerHTML='<option value="">كل الولايات</option>'+opt(WIL);
+renderMine();loadAll();if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js"));
+</script></body></html>
