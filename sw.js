@@ -1,42 +1,42 @@
-const CACHE_NAME = 'service-dz-v2'; // قومي بتغيير هذا الرقم (v2, v3, ...) مع كل تحديث جديد ترفعيه
+const CACHE_NAME = 'service-dz-v3';
 const urlsToCache = [
-  '/',
-  '/index.html',
-  // أضيفي هنا بقية الملفات الأساسية مثل ملفات الـ CSS أو الـ JS إذا وجدت
+  './',
+  './index.html',
+  './premium.js',
+  './manifest.json',
+  './icon-192.png',
+  './icon-512.png'
 ];
 
-// 1. تثبيت الـ Service Worker وحفظ الملفات الجديدة
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(urlsToCache);
-    })
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(urlsToCache))
   );
-  self.skipWaiting(); // يجبر الـ Service Worker الجديد على تفعيل نفسه فوراً دون انتظار إغلاق المتصفح
+  self.skipWaiting();
 });
 
-// 2. تنشيط الـ Service Worker وحذف الكِش (Cache) القديم
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cacheName) => {
-          if (cacheName !== CACHE_NAME) {
-            console.log('Deleting old cache:', cacheName);
-            return caches.delete(cacheName); // يحذف النسخ القديمة تماماً
-          }
-        })
-      );
-    })
+    caches.keys().then((names) =>
+      Promise.all(
+        names.map((n) => (n !== CACHE_NAME ? caches.delete(n) : null))
+      )
+    )
   );
-  self.clients.claim(); // السيطرة الفورية على جميع الصفحات المفتوحة
+  self.clients.claim();
 });
 
-// 3. جلب الملفات (Fetch)
 self.addEventListener('fetch', (event) => {
+  if (event.request.method !== 'GET') return;
+  const url = new URL(event.request.url);
+  if (url.origin !== location.origin) return;
   event.respondWith(
-    caches.match(event.request).then((response) => {
-      return response || fetch(event.request);
-    })
+    fetch(event.request)
+      .then((res) => {
+        const copy = res.clone();
+        caches.open(CACHE_NAME).then((c) => c.put(event.request, copy));
+        return res;
+      })
+      .catch(() => caches.match(event.request))
   );
 });
