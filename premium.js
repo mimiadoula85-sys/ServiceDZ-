@@ -83,4 +83,33 @@ async function send(){
     let r = await fetch(SB + "/storage/v1/object/receipts/" + path, {
       method: "POST",
       headers: {
-        apikey: KEY,
+        apikey: KEY,Authorization: "Bearer " + SES.access_token,
+        "Content-Type": f.type
+      },
+      body: f
+    });
+    if(!r.ok){
+      let d = await r.json().catch(() => null);
+      throw Error(d?.message || "فشل رفع الصورة");
+    }
+    await api("/rest/v1/payments", {
+      method: "POST",
+      body: { plan: $("pplan").value, receipt_path: path }
+    });
+    toast("تم إرسال طلبك ✔ في انتظار المراجعة");
+  }catch(x){
+    toast(x.message);
+  }
+  busy = false;
+  fillMember();
+}
+
+const _rm = renderMine;
+renderMine = function(){
+  _rm();
+  fillMember();
+};
+
+fillMember();
+
+})();
