@@ -7,7 +7,7 @@
     
     
   const PAY = {
-  ccp: 002028098710
+  ccp: "002028098710"
   name: "meryem",
   baridi: "غير متوفر",
   prices: {
