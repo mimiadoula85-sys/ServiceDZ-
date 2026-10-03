@@ -9,7 +9,7 @@ async function load(){
     h.parentNode.insertBefore(box, h);
   }
   let rows = [];
-  try{ rows = await raw("/rest/v1/banners?select=*&order=created_at.desc&limit=10", {auth:false}) || []; }catch(e){}
+  try{ rows = await raw("/rest/v1/company_banners?select=*&order=created_at.desc&limit=10", {auth:false}) || []; }catch(e){}
   if(!rows.length){ box.innerHTML = ""; return; }
   let i = 0;
   const show = () => {
