@@ -131,7 +131,7 @@ $("logout").onclick=()=>{SES=null;localStorage.removeItem("sdz_ses");renderMine(
 $("save").onclick=async()=>{let t=$("ft").value.trim(),n=$("fn").value.trim(),ph=$("fph").value.trim(),d=$("fd").value.trim();if(!t||!n||!d||!okPh(ph))return toast("أكمل البيانات ورقم الهاتف");try{await api("/rest/v1/listings",{method:"POST",body:{title:t,name:n,category:$("fc").value,wilaya:$("fw").value,price:+$("fp").value||0,price_type:$("ft2").value,phone:ph,description:d}});toast("تم النشر ✔");go("home")}catch(x){toast(x.message)}}
 $("rsave").onclick=async()=>{let t=$("rt").value.trim(),ph=$("rph").value.trim();if(!t||!okPh(ph))return toast("أكمل الطلب ورقم الهاتف");try{await api("/rest/v1/requests",{method:"POST",body:{title:t,category:$("rc").value,wilaya:$("rw").value,budget:+$("rb").value||0,phone:ph}});toast("تم نشر طلبك ✔");loadAll()}catch(x){toast(x.message)}}
 $("fc").innerHTML=opt(CATS);$("rc").innerHTML=opt(CATS);$("fw").innerHTML=opt(WIL);$("rw").innerHTML=opt(WIL);$("wf").innerHTML='<option value="">كل الولايات</option>'+opt(WIL);
-renderMine();loadAll();if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js"));</script>
+renderMine();loadAll();if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js"));</script>script src="session.js"></script>
 <script src="premium.js"></script>
 <script src="admin.js"></script>
 <script src="reset.js"></script>
