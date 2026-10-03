@@ -44,4 +44,7 @@ b.onclick = () => {
 };
 })();
       renderMine();
-      loadAll();
+      loadAll();}catch(x){ toast(x.message); }
+  };
+};
+})();
