@@ -1,0 +1,13 @@
+create table if not exists company_banners (
+  id uuid primary key default gen_random_uuid(),
+  title text not null,
+  body text,
+  phone text,
+  link text,
+  until timestamptz not null,
+  created_at timestamptz default now()
+);
+alter table company_banners enable row level security;
+drop policy if exists "read active banners" on company_banners;
+create policy "read active banners" on company_banners
+  for select using (until > now());
