@@ -39,6 +39,9 @@ b.onclick = () => {
       SES = {access_token:d.access_token, user:d.user};
       localStorage.setItem("sdz_ses", JSON.stringify(SES));
       closeSheet();
-      toast("تم تغيير كلمة السر ✔");
+      toast("تم تغيير كلمة السر ✔");}catch(x){ toast(x.message); }
+  };
+};
+})();
       renderMine();
       loadAll();
