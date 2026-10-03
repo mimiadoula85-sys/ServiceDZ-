@@ -43,4 +43,58 @@ function addField(){
 }
 
 function hook(){
-  const s = $("save");
+  const s = $("save");if(!s) return;
+  s.onclick = async () => {
+    const t = $("ft").value.trim(), n = $("fn").value.trim(), ph = $("fph").value.trim(), d = $("fd").value.trim();
+    if(!t || !n || !d || !okPh(ph)) return toast("أكمل البيانات ورقم الهاتف");
+    s.disabled = true;
+    try{
+      const imgs = [];
+      for(const f of picked) imgs.push(await upload(await shrink(f)));
+      await api("/rest/v1/listings", {method: "POST", body: {
+        title: t, name: n, category: $("fc").value, wilaya: $("fw").value,
+        price: +$("fp").value || 0, price_type: $("ft2").value, phone: ph,
+        description: d, images: imgs
+      }});
+      picked = [];
+      $("fimgs").value = "";
+      $("fcount").textContent = "";
+      toast("تم النشر ✔");
+      go("home");
+    }catch(x){ toast(x.message); }
+    s.disabled = false;
+  };
+}
+
+const _card = card;
+card = function(s, own){
+  let h = _card(s, own === true);
+  const im = Array.isArray(s.images) ? s.images : [];
+  h = h.replace("<article ", '<article data-open="' + esc(s.id) + '" ');
+  if(im.length){
+    const badge = im.length > 1 ? " · 📷 " + im.length : "";
+    h = h.replace('<p class="desc">', '<img src="' + esc(im[0]) + '" loading="lazy" style="width:100%;height:190px;object-fit:cover;border-radius:14px;margin-top:8px"><div class="meta">اضغط لعرض الصفحة كاملة' + badge + '</div><p class="desc">');
+  }
+  return h;
+};function detail(s){
+  const im = Array.isArray(s.images) ? s.images : [];
+  const g = im.length ? '<div style="display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;margin:10px 0">' +
+    im.map(u => '<img src="' + esc(u) + '" style="flex:0 0 92%;scroll-snap-align:center;height:260px;object-fit:cover;border-radius:16px">').join("") + '</div>' : "";
+  return '<h2 style="margin-top:0">' + esc(s.title) + '</h2><div class="meta">' + esc(s.name) + ' · 📍 ' + esc(short(s.wilaya)) + '</div>' + g +
+    '<p class="desc">' + esc(s.description) + '</p><div><span class="price">' + fmt(s.price) + '</span><span class="tag">' + esc(s.price_type) + '</span></div>' +
+    '<div class="btns"><a class="btn b1" href="tel:' + esc(s.phone) + '">📞 اتصال</a><a class="btn b2" target="_blank" href="' + wa(s.phone) + '">واتساب</a></div>' +
+    '<div class="btns"><button class="btn b3" data-close>إغلاق</button></div>';
+}
+
+document.addEventListener("click", e => {
+  if(e.target.closest("a,button,input,select,textarea")) return;
+  const c = e.target.closest("[data-open]");
+  if(!c) return;
+  const s = L.find(x => String(x.id) === c.dataset.open);
+  if(s) openSheet(detail(s));
+});
+
+addField();
+hook();
+try{ render(); renderMine(); }catch(e){}
+})();
