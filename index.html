@@ -1,143 +1,642 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" style="color-scheme: light dark;">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0E4D3A">
+<meta name="color-scheme" content="light dark">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>Service DZ</title>
+<title>Service DZ — صفقات موثّقة</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
-:root{--g:#0E4D3A;--g2:#146B50;--a:#E8A317;--bg:#F4F7F5;--c:#fff;--t:#14231D;--m:#5F736A;--l:#DCE5E0;--red:#D93838}
+:root{color-scheme:light dark;--g:#0E4D3A;--g2:#146B50;--a:#E8A317;--bg:#F4F7F5;--c:#fff;--t:#14231D;--m:#5F736A;--l:#DCE5E0;--red:#D93838}
 *{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
 body{font-family:Cairo,Tahoma,sans-serif;background:var(--bg);color:var(--t);padding-bottom:90px}
-header{background:linear-gradient(160deg,var(--g),#0a3b2c);color:#fff;padding:20px 18px 22px;border-radius:0 0 28px 28px}
+header{background:linear-gradient(160deg,var(--g),#0a3b2c);color:#fff;padding:calc(env(safe-area-inset-top,0px) + 20px) 18px 22px;border-radius:0 0 28px 28px}
 header h1{font-size:28px;font-weight:800;direction:ltr;text-align:right}
 header h1 b{background:var(--a);color:#14231D;font-size:20px;padding:0 10px;border-radius:10px;margin-inline-start:4px}
-header p{font-size:14px;opacity:.9;margin-top:6px}.deco{font-size:22px;letter-spacing:6px;margin-top:10px}
+header p{font-size:14px;opacity:.9;margin-top:6px}
+.deco{font-size:22px;letter-spacing:6px;margin-top:10px}
 main{padding:16px;max-width:640px;margin:auto}
 input,select,textarea{width:100%;border:1.5px solid var(--l);border-radius:14px;padding:12px;font:inherit;background:var(--c);color:var(--t);outline:none}
-input:focus,select:focus,textarea:focus{border-color:var(--g)}textarea{min-height:80px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:var(--g)}
+textarea{min-height:80px;resize:vertical}
 label{display:block;font-weight:600;font-size:14px;margin:14px 0 6px}
-.hero,.box,.card{background:var(--c);border:1px solid var(--l);border-radius:20px;padding:14px;margin-bottom:12px}
-.hero{margin-top:12px}.stat{font-weight:800;font-size:15px}.sub,.meta{color:var(--m);font-size:13px;line-height:1.7}
-.perks{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
-.perks div{background:var(--bg);border-radius:14px;padding:10px 4px;text-align:center;font-size:12px;font-weight:600}.perks i{display:block;font-style:normal;font-size:26px}
-.filters input{margin-bottom:8px}.frow{display:flex;gap:8px}.frow select{flex:1.2}
-.loc{flex:1;border:0;border-radius:14px;background:var(--l);color:var(--t);font:inherit;font-weight:800}
-.cats{margin-top:12px}.grp{margin-top:14px}.grp h4{font-size:15px;margin-bottom:8px;padding-inline-start:10px;border-inline-start:4px solid var(--a)}
+.ticker{background:rgba(232,163,23,.15);border:1px dashed var(--a);border-radius:12px;padding:8px 12px;margin-bottom:12px;font-size:12px;font-weight:600;display:none;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.promo{background:linear-gradient(135deg,var(--g2),var(--g));color:#fff;border-radius:16px;padding:14px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.promo h4{font-size:15px;font-weight:800}.promo p{font-size:12px;opacity:.9;margin-top:2px}
+.promo button{background:var(--a);color:#14231D;border:0;padding:8px 12px;border-radius:10px;font:inherit;font-weight:800;font-size:12px;cursor:pointer;flex:none}
+.hero{background:var(--c);border:1px solid var(--l);border-radius:20px;padding:14px;margin-bottom:14px}
+.stat{font-weight:800;font-size:15px}
+.perks{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0 2px}
+.perks div{background:var(--bg);border-radius:14px;padding:10px 4px;text-align:center;font-size:12px;font-weight:600}
+.perks i{display:block;font-style:normal;font-size:26px;margin-bottom:2px}
+.filters input{margin-bottom:8px}
+.frow{display:flex;gap:8px}.frow select{flex:1.2}
+.loc{flex:1;border:0;border-radius:14px;background:var(--l);color:var(--t);font:inherit;font-weight:800;font-size:14px;cursor:pointer}
+.cats{margin-top:12px}.grp{margin-top:14px}
+.grp h4{font-size:15px;font-weight:800;margin-bottom:8px;padding-inline-start:10px;border-inline-start:4px solid var(--a)}
 .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.cat{display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center;border:1.5px solid var(--l);background:var(--c);color:var(--t);padding:12px 2px;border-radius:20px;font:inherit;font-size:12px;cursor:pointer}
-.cat i{font-style:normal;font-size:28px;line-height:1;width:54px;height:54px;border-radius:50%;background:#FFE9C7;display:grid;place-items:center}.cat small{font-size:10px;color:var(--m)}
-.cat.on{background:rgba(20,107,80,.16);border-color:var(--g);font-weight:800}
-h2{font-size:20px;font-weight:800;margin:18px 0 4px}.page{display:none}.page.on{display:block}
-.btns{display:flex;gap:8px;margin-top:10px}.btn{flex:1;text-align:center;border:0;border-radius:12px;padding:10px;font:inherit;font-weight:700;cursor:pointer;text-decoration:none;font-size:13px}
-.b1{background:var(--g2);color:#fff}.b2{background:#25D366;color:#fff}.b3{background:var(--c);border:1.5px solid var(--l);color:var(--t)}.b4{background:var(--c);border:1.5px solid #ffcccc;color:var(--red)}.b5{background:linear-gradient(135deg,#f2994a,#f2c94c);color:#14231D}
-.top{display:flex;gap:12px;align-items:flex-start}.ic{width:52px;height:52px;border-radius:14px;background:#FFEFC2;display:grid;place-items:center;font-size:28px;flex:none}
-.card.feat{border:2px solid var(--a)}.fbadge{display:inline-block;background:var(--a);color:#14231D;font-size:11px;padding:2px 8px;border-radius:99px;font-weight:800;margin-inline-start:6px}
-.price{font-weight:800;font-size:16px}.tag{display:inline-block;background:var(--l);color:var(--m);font-size:11px;padding:3px 10px;border-radius:99px;font-weight:800;margin-inline-start:8px}
-.desc{font-size:14px;color:var(--m);line-height:1.7;margin:8px 0}.empty{text-align:center;color:var(--m);padding:25px 10px}
-nav{position:fixed;bottom:0;inset-inline:0;background:var(--c);border-top:1px solid var(--l);display:flex;padding:8px 0;z-index:100}
-nav button{flex:1;border:0;background:none;font:inherit;font-size:12px;color:var(--m);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}nav button.on{color:var(--g);font-weight:800}nav span{font-size:24px}
-.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:#14231D;color:#fff;padding:10px 20px;border-radius:99px;font-size:14px;opacity:0;pointer-events:none;transition:.25s;z-index:1000}.toast.on{opacity:1}
-.liveHero{background:linear-gradient(135deg,#8d1515,#d93838);color:#fff;border-radius:20px;padding:18px;margin:10px 0 14px}
-.liveHero h2{margin:0;color:#fff}.liveHero p{font-size:13px;opacity:.92;margin-top:4px}
-.liveCard{border:2px solid #d93838}.liveDot{display:inline-block;width:10px;height:10px;background:#d93838;border-radius:50%;margin-left:5px}
-.note{background:rgba(232,163,23,.12);border-right:4px solid var(--a);padding:12px;border-radius:12px;font-size:13px;line-height:1.7}
-.ovl{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:flex-end;justify-content:center;z-index:500}.ovl.on{display:flex}
+.g-a{--tint:#FFE9C7}.g-b{--tint:#FFDCE6}.g-c{--tint:#D9ECFF}.g-d{--tint:#DDF3E6}
+.cat{display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center;line-height:1.3;border:1.5px solid var(--l);background:var(--c);color:var(--t);padding:12px 2px;border-radius:20px;font:inherit;font-size:12px;cursor:pointer}
+.cat i{font-style:normal;font-size:28px;line-height:1;width:54px;height:54px;border-radius:50%;background:var(--tint);display:grid;place-items:center}
+.cat small{font-size:10px;color:var(--m);min-height:12px}
+.cat.on{background:rgba(20,107,80,.16);border-color:var(--g);color:var(--g);font-weight:800}
+h2{font-size:20px;font-weight:800;margin-top:22px}
+.page>h2:first-child{margin-top:0}
+.sub{color:var(--m);font-size:14px;margin-top:2px;line-height:1.7}
+.card{background:var(--c);border-radius:20px;padding:14px;margin-top:12px;border:1px solid var(--l)}
+.card.feat{border:2px solid var(--a)}
+.top{display:flex;gap:12px;align-items:flex-start}
+.ic{width:52px;height:52px;border-radius:14px;background:#FFEFC2;color:#14231D;display:grid;place-items:center;font-size:28px;flex:none}
+.top h3{font-size:16px;line-height:1.4}
+.meta{color:var(--m);font-size:13px;margin-top:2px;line-height:1.6}
+.tag{display:inline-block;background:var(--l);color:var(--m);font-size:11px;padding:3px 10px;border-radius:99px;font-weight:800}
+.fbadge{display:inline-block;background:var(--a);color:#14231D;font-size:11px;padding:2px 8px;border-radius:99px;font-weight:800;margin-inline-start:6px}
+.price{font-weight:800;font-size:16px;margin-inline-end:8px}
+.desc{font-size:14px;color:var(--m);line-height:1.7;margin:8px 0}
+.btns{display:flex;gap:8px;margin-top:10px}
+.btn{flex:1;text-align:center;border:0;border-radius:12px;padding:10px;font:inherit;font-weight:600;cursor:pointer;text-decoration:none;font-size:13px;display:block}
+.b1{background:var(--g2);color:#fff}.b2{background:#25D366;color:#fff}.b3{background:var(--c);border:1.5px solid var(--l);color:var(--t)}.b4{background:var(--c);border:1.5px solid #ffcccc;color:var(--red)}.b5{background:linear-gradient(135deg,#f2994a,#f2c94c);color:#14231D;font-weight:800}
+.btn:disabled{opacity:.6}
+.empty{text-align:center;color:var(--m);padding:30px 10px}
+.st{font-size:13px;font-weight:800;margin-top:6px}
+.box{background:var(--c);border:1px solid var(--l);border-radius:20px;padding:16px;margin-top:12px}
+.tip{background:var(--c);border-radius:14px;padding:12px;margin-top:8px;border-right:4px solid var(--a);font-size:13px;line-height:1.7}
+nav{position:fixed;bottom:0;inset-inline:0;background:var(--c);border-top:1px solid var(--l);display:flex;padding:8px 0 calc(env(safe-area-inset-bottom,0px) + 8px);z-index:100}
+nav button{flex:1;border:0;background:none;font:inherit;font-size:12px;color:var(--m);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
+nav button.on{color:var(--g);font-weight:800}
+nav span{font-size:24px}
+.page{display:none}.page.on{display:block}
+.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:#14231D;color:#fff;padding:10px 20px;border-radius:99px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .25s;z-index:1000;max-width:90%;text-align:center}
+.toast.on{opacity:1}
+.ovl{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:flex-end;justify-content:center;z-index:500}
+.ovl.on{display:flex}
 .sheet{background:var(--c);color:var(--t);width:100%;max-width:640px;max-height:92vh;overflow:auto;border-radius:24px 24px 0 0;padding:18px}
-video{width:100%;border-radius:16px;background:#000;max-height:60vh}
-@media(prefers-color-scheme:dark){:root{--bg:#0F1512;--c:#18211D;--t:#EAF2EE;--m:#9BB0A6;--l:#2B3A33}.cat.on{color:#7FD1AE;border-color:#7FD1AE}}
+.contract{white-space:pre-wrap;line-height:1.9;font-size:14px;border:1.5px dashed var(--l);border-radius:14px;padding:14px;margin-top:10px}
+@media print{body *{visibility:hidden}#sheet,#sheet *{visibility:visible}#sheet{position:absolute;inset:0;max-height:none}.noprint{display:none!important}}
+@media (prefers-color-scheme:dark){
+:root{--bg:#0F1512;--c:#18211D;--t:#EAF2EE;--m:#9BB0A6;--l:#2B3A33}
+.cat.on,nav button.on{color:#7FD1AE}.cat.on{border-color:#7FD1AE}
+.g-a{--tint:#4a3a1c}.g-b{--tint:#4a2434}.g-c{--tint:#1f3550}.g-d{--tint:#1f4030}
+}
+</style>
+
+<style id="future-style">
+.future-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
+.future-card{background:var(--c);border:1px solid var(--l);border-radius:18px;padding:14px;cursor:pointer}
+.future-card b{display:block;font-size:15px;margin-bottom:5px}.future-card small{color:var(--m);line-height:1.6}
+.pillbar{display:flex;gap:7px;overflow:auto;padding:4px 0 2px}.pillbar button{white-space:nowrap;border:1px solid var(--l);background:var(--c);color:var(--t);border-radius:99px;padding:8px 12px;font:inherit;font-size:12px;font-weight:700}
+.pulse{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-top:10px}.metric{background:var(--bg);border-radius:15px;padding:12px}.metric b{display:block;font-size:22px;color:var(--g)}.metric span{font-size:11px;color:var(--m)}
+.workflow{display:flex;gap:4px;margin-top:10px}.workflow span{flex:1;text-align:center;background:var(--bg);border-radius:8px;padding:6px 2px;font-size:10px;color:var(--m)}.workflow span.on{background:#DDF3E8;color:var(--g);font-weight:800}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:22px}.section-head h2{margin:0}.mini{font-size:11px;color:var(--m)}
+.role{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px}.role button{border:1.5px solid var(--l);background:var(--c);border-radius:14px;padding:12px;font:inherit;color:var(--t);font-weight:700}.role button i{font-style:normal;font-size:23px;display:block;margin-bottom:4px}
+.opportunity{border-right:4px solid var(--a);background:var(--c);border-radius:16px;padding:13px;margin-top:9px;border:1px solid var(--l)}
+.demo-note{background:rgba(20,107,80,.08);border:1px dashed var(--g2);border-radius:14px;padding:11px;font-size:12px;line-height:1.7;margin-top:10px}
+@media(min-width:520px){.future-grid{grid-template-columns:repeat(4,1fr)}.role{grid-template-columns:repeat(4,1fr)}}
 </style>
 </head>
 <body>
-<header><h1>Service<b>DZ</b></h1><p>اعثر على الخدمة أو المنتج اللي تحتاجه قريب منك</p><div class="deco">🍰 🎨 👗 ⚒️ 🪚 📚 🧵</div></header>
+<header>
+  <h1>Service<b>DZ</b></h1>
+  <p>صفقات موثّقة بين الأفراد والشركات في كل ولايات الجزائر (69)</p>
+  <div class="deco">🍰 🎨 👗 ⚒️ 🪚 📚 🧵</div>
+</header>
 <main>
 <section class="page on" id="p-home">
-<div class="liveHero"><h2>🔴 البث المباشر</h2><p>شاهد عروض التجار والبثوث المباشرة من مكان واحد.</p><div class="btns"><button class="btn" style="background:#fff;color:#8d1515" data-go="live">📺 مشاهدة البثوث</button><button class="btn" style="background:#E8A317;color:#14231D" id="startLive">🔴 ابدأ بثك</button></div></div>
-<div class="hero"><div class="stat" id="stat"></div><div class="perks"><div><i>🤝</i>سُومة وتفاوض</div><div><i>📄</i>اتفاق مكتوب</div><div><i>📍</i>قريب منك</div></div><div class="btns"><button class="btn b1" data-go="add">➕ انشر إعلانك مجاناً</button><button class="btn b3" data-go="ask">🙋 اطلب ما تحتاجه</button></div></div>
-<div class="filters"><input id="q" placeholder="🔍 ابحث: سباك، قندورة، هاتف..."><div class="frow"><select id="wf"></select><button class="loc" id="loc">📍 موقعي</button></div></div><div class="cats" id="cats"></div><div id="list"></div>
+  <div class="ticker" id="ticker"></div>
+  <div class="promo"><div><h4>🏪 اشتراك التاجر</h4><p>انشر إعلاناتك وتلقَّ السُّومات من 500 دج شهرياً — والمشتري مجاناً</p></div><button id="joinBtn">اعرف أكثر</button></div>
+  <div class="hero"><div class="stat" id="stat"></div>
+    <div class="perks"><div><i>🤝</i>سُومة وتفاوض</div><div><i>📄</i>اتفاق مكتوب</div><div><i>📦</i>تسليم واستلام مؤكد</div></div>
+    <div class="btns"><button class="btn b1" data-go="add">➕ انشر إعلانك مجاناً</button><button class="btn b3" data-go="ask">🙋 اطلب ما تحتاجه</button></div></div>
+  <div class="filters"><input id="q" placeholder="🔍 ابحث: سباك، قندورة، هاتف..." aria-label="بحث"><div class="frow"><select id="wf"></select><button class="loc" id="loc">📍 موقعي</button><button class="loc" id="lo">🇩🇿 محلي</button></div></div>
+  <div class="cats" id="cats"></div><div id="list"></div>
+
+  <div class="section-head"><h2>من الحاجة إلى الصفقة</h2><span class="mini">Service DZ الاقتصادي</span></div>
+  <div class="demo-note">منصة تربط المواطن، المهني، التاجر، الشركة والمؤسسة، وتحول الطلب والمعاملات إلى فرص اقتصادية وبيانات سوق مجمعة.</div>
+  <div class="future-grid">
+    <button class="future-card" data-future="market"><b>🛒 السوق</b><small>منتجات وخدمات مع فلترة الولاية والسعر والفئة.</small></button>
+    <button class="future-card" data-future="deals"><b>🤝 الصفقات</b><small>طلب ← عروض ← قبول ← اتفاق ← تنفيذ ← تسليم.</small></button>
+    <button class="future-card" data-future="opportunities"><b>💡 فرص السوق</b><small>نحوّل الطلب غير الملبّى إلى فرص للمنتجين والمهنيين.</small></button>
+    <button class="future-card" data-future="pulse"><b>📊 نبض السوق</b><small>مؤشرات مجمعة تساعد على فهم الطلب حسب الفئة والولاية.</small></button>
+  </div>
+  <div class="section-head"><h2>فضاء اقتصادي</h2><span class="mini">للتوسع لاحقاً</span></div>
+  <div class="future-grid">
+    <button class="future-card" data-future="company"><b>🏢 الشركات والمؤسسات</b><small>نشر الاحتياجات، استقبال العروض واكتشاف المورّدين ضمن الإجراءات المعمول بها.</small></button>
+    <button class="future-card" data-future="local"><b>🇩🇿 محلي</b><small>إبراز المنتجات والخدمات المحلية ودعم العرض المحلي.</small></button>
+    <button class="future-card" data-future="trust"><b>⭐ جواز التاجر</b><small>مؤشرات الثقة والإنجاز والاستجابة بشكل شفاف.</small></button>
+    <button class="future-card" data-future="agreement"><b>📄 الاتفاق</b><small>سجل واضح للسعر والشروط والتأكيدات ورقم الصفقة.</small></button>
+  </div>
+
 </section>
 
-<section class="page" id="p-live">
-<h2>🔴 البث المباشر</h2><p class="sub">هنا تظهر البثوث التي يتم ربطها بخدمة البث المباشر.</p>
-<div class="box"><div class="note">للحماية والأمان، البث الحقيقي يحتاج خدمة بث وخادم آمن لإنشاء مفاتيح البث. هذه النسخة جهزت لك واجهة البث، وبعد ربط خدمة البث يمكن تشغيل الكاميرا للمشاهدين.</div><div class="btns"><button class="btn b1" id="goLiveSetup">🎥 إعداد بثي</button></div></div>
-<div id="liveList"><div class="empty">لا توجد بثوث مباشرة منشورة حاليًا.</div></div>
+<section class="page" id="p-ask">
+  <h2>اطلب خدمة أو منتج</h2><p class="sub">اكتب ما تحتاجه ليرسل لك المورّدون أسعارهم، فتقارنها وتختار الأنسب.</p>
+  <div class="box" id="askLogin"><p class="sub">سجّل الدخول لتنشر طلباً.</p><div class="btns"><button class="btn b1" data-go="mine">تسجيل الدخول</button></div></div>
+  <div id="askForm"><label>ماذا تحتاج؟</label><input id="rt" maxlength="60" placeholder="مثال: أحتاج طباخة لحفل عائلي"><label>الفئة</label><select id="rc"></select><label>الولاية</label><select id="rw"></select><label>ميزانيتك (دج)</label><input id="rb" type="number" min="0" inputmode="numeric"><label>رقم هاتفك</label><input id="rph" type="tel" inputmode="tel" placeholder="05XXXXXXXX"><div class="btns" style="margin-top:16px"><button class="btn b1" id="rsave">نشر طلبي</button></div></div>
+  <h2>طلبات الناس</h2><div id="reqs"></div>
 </section>
 
-<section class="page" id="p-ask"><h2>اطلب خدمة أو منتج</h2><p class="sub">اكتب ما تحتاجه ويتواصل معك من يقدمه.</p>
-<div class="box" id="askLogin">سجّل الدخول لتنشر طلباً.<div class="btns"><button class="btn b1" data-go="mine">تسجيل الدخول</button></div></div>
-<div id="askForm"><label>ماذا تحتاج؟</label><input id="rt" maxlength="60"><label>الفئة</label><select id="rc"></select><label>الولاية</label><select id="rw"></select><label>ميزانيتك (دج)</label><input id="rb" type="number"><label>رقم هاتفك</label><input id="rph" type="tel"><div class="btns"><button class="btn b1" id="rsave">نشر طلبي</button></div></div><h2>طلبات الناس</h2><div id="reqs"></div></section>
+<section class="page" id="p-add">
+  <h2>اعرض خدمة أو منتج</h2><p class="sub">النشر مجاني ويراه كل من يفتح التطبيق.</p>
+  <div class="box" id="addLogin"><p class="sub">سجّل الدخول لتنشر إعلاناً.</p><div class="btns"><button class="btn b1" data-go="mine">تسجيل الدخول</button></div></div>
+  <div id="addForm"><label>العنوان</label><input id="ft" maxlength="60" placeholder="مثال: حلويات تقليدية"><label>اسمك أو لقبك التجاري</label><input id="fn" maxlength="40"><label>الفئة</label><select id="fc"></select><label>الولاية</label><select id="fw"></select><label>السعر (دج)</label><input id="fp" type="number" min="0" inputmode="numeric" placeholder="3000"><label>نوع السعر</label><select id="ft2"><option>سعر ثابت</option><option>قابل للتفاوض</option><option>يبدأ من</option></select><label>المصدر</label><select id="fo"><option>محلي</option><option>مستورد</option><option>خدمة</option></select><label>رقم الهاتف أو واتساب</label><input id="fph" type="tel" inputmode="tel" placeholder="05XXXXXXXX"><label>الوصف</label><textarea id="fd" maxlength="300"></textarea><div class="btns" style="margin-top:16px"><button class="btn b1" id="save">نشر الآن</button></div></div>
+</section>
 
-<section class="page" id="p-add"><h2>اعرض خدمة أو منتج</h2><p class="sub">النشر مجاني ويراه كل من يفتح التطبيق.</p>
-<div class="box" id="addLogin">سجّل الدخول لتنشر إعلاناً.<div class="btns"><button class="btn b1" data-go="mine">تسجيل الدخول</button></div></div>
-<div id="addForm"><label>العنوان</label><input id="ft" maxlength="60"><label>اسمك أو لقبك التجاري</label><input id="fn" maxlength="40"><label>الفئة</label><select id="fc"></select><label>الولاية</label><select id="fw"></select><label>السعر (دج)</label><input id="fp" type="number"><label>نوع السعر</label><select id="ft2"><option>سعر ثابت</option><option>قابل للتفاوض</option><option>يبدأ من</option></select><label>رقم الهاتف أو واتساب</label><input id="fph" type="tel"><label>الوصف</label><textarea id="fd" maxlength="300"></textarea><div class="btns"><button class="btn b1" id="save">نشر الآن</button></div></div></section>
 
-<section class="page" id="p-mine"><h2>حسابي</h2>
-<div class="box" id="authBox"><p class="sub">سجّل الدخول لتنشر وتستلم السُّومات وتدير إعلاناتك.</p><label>البريد الإلكتروني</label><input id="em" type="email" dir="ltr"><label>كلمة السر</label><input id="pw" type="password" dir="ltr"><div class="btns"><button class="btn b1" id="login">دخول</button><button class="btn b3" id="signup">إنشاء حساب</button></div><div class="btns"><button class="btn b3" id="forgot">نسيت كلمة السر؟</button></div></div>
-<div id="userBox"><div class="box"><div class="meta" id="who"></div><div class="btns"><button class="btn b3" id="logout">تسجيل الخروج</button></div></div>
-<h2>🤝 السُّومات والاتفاقات</h2><div id="offBox"></div>
-<h2>⭐ العضوية المميزة</h2><div class="box" id="memBox"></div>
-<h2>🔴 البث المباشر للتاجر</h2><div class="box"><p class="sub">يمكنك تجهيز بثك المباشر. التشغيل الحقيقي يحتاج ربط خدمة بث آمنة من لوحة المشروع.</p><div class="btns"><button class="btn b5" id="myLive">🎥 تجهيز بث مباشر</button></div></div>
-<h2>إعلاناتي</h2><div id="mine"></div>
-<div class="box"><p class="sub">حذف الحساب يمسح حسابك وإعلاناتك وطلباتك وسُوماتك نهائياً.</p><div class="btns"><button class="btn b4" id="delacc">🗑️ حذف حسابي</button></div></div></div>
+<section class="page" id="p-economy">
+  <h2>📊 الاقتصاد والفرص</h2>
+  <p class="sub">لوحة أولية مبنية على بيانات Service DZ المتاحة حالياً. ليست إحصاءات رسمية للدولة.</p>
+  <select id="ew" style="margin-top:10px"></select><div class="pulse" id="pulseMetrics"></div>
+  <div class="section-head"><h2>🔥 فرص السوق</h2><span class="mini">تقدير أولي</span></div>
+  <div id="opportunities"></div>
+  <div class="section-head"><h2>🏢 فضاء الشركات والمؤسسات</h2></div>
+  <div class="box">
+    <p class="sub">حسابات مهنية متقدمة يمكنها مستقبلاً نشر احتياجاتها، استقبال عروض المورّدين، مقارنة الأسعار، وتوثيق مراحل الصفقة، مع احترام القوانين والإجراءات الخاصة بكل جهة.</p>
+    <div class="role">
+      <button data-role="company"><i>🏢</i>شركة</button>
+      <button data-role="institution"><i>🏫</i>مؤسسة</button>
+      <button data-role="public"><i>🏛️</i>هيئة عمومية</button>
+      <button data-role="supplier"><i>👨‍🔧</i>مورد/مهني</button>
+    </div>
+  </div>
+  <div class="demo-note">الفكرة ليست استبدال منصات أو إجراءات رسمية، بل بناء طبقة رقمية تساعد على اكتشاف الاحتياجات والعروض وتتبع المعاملات داخل الإطار القانوني المناسب.</div>
+  <div class="section-head"><h2>🤝 مسار الصفقة</h2></div>
+  <div class="workflow"><span>سُومة</span><span>قبول</span><span>اتفاق</span><span>تسليم</span><span>استلام</span></div>
+</section>
+
+<section class="page" id="p-mine">
+  <h2>حسابي</h2>
+  <div class="box" id="authBox"><p class="sub">سجّل الدخول لتنشر وتستلم السُّومات وتدير إعلاناتك.</p>
+    <label>البريد الإلكتروني</label><input id="em" type="email" inputmode="email" autocomplete="email" dir="ltr">
+    <label>كلمة السر (6 أحرف على الأقل)</label><input id="pw" type="password" autocomplete="current-password" dir="ltr">
+    <label>نوع الحساب (عند إنشاء حساب جديد)</label><select id="at"><option value="trader">تاجر أو حرفي أو فرد</option><option value="co">شركة خاصة</option><option value="co">مؤسسة تعليمية</option><option value="co">مؤسسة صحية</option><option value="co">هيئة عمومية</option><option value="co">جمعية أو تعاونية</option></select>
+    <div id="coBox" style="display:none"><label>اسم الشركة أو المؤسسة</label><input id="cn" maxlength="60"><label>رقم السجل التجاري أو الاعتماد</label><input id="cr" maxlength="30" dir="ltr"></div>
+    <div class="btns" style="margin-top:14px"><button class="btn b1" id="login">دخول</button><button class="btn b3" id="signup">إنشاء حساب</button></div>
+    <div class="btns"><button class="btn b3" id="forgot">نسيت كلمة السر؟</button></div></div>
+  <div class="box" id="recBox" style="display:none"><p class="sub">اكتب كلمة سر جديدة لحسابك.</p>
+    <label>كلمة السر الجديدة (6 أحرف على الأقل)</label><input id="np" type="password" autocomplete="new-password" dir="ltr">
+    <div class="btns" style="margin-top:14px"><button class="btn b1" id="setpw">حفظ كلمة السر</button></div></div>
+  <div id="userBox">
+    <div class="box"><div class="meta" id="who"></div><div class="btns"><button class="btn b3" id="logout">تسجيل الخروج</button></div></div>
+    <h2>🤝 السُّومات والاتفاقات</h2><div id="offBox"></div>
+    <h2>🏪 اشتراك التاجر</h2><div class="box" id="memBox"></div>
+    <h2>إعلاناتي</h2><div id="mine"></div>
+    <div class="box" style="margin-top:20px"><p class="sub">حذف الحساب يمسح حسابك وإعلاناتك وطلباتك وسُوماتك نهائياً ولا يمكن التراجع.</p>
+    <div class="btns"><button class="btn b4" id="delacc">🗑️ حذف حسابي نهائياً</button></div></div>
+  </div>
+  <h2>تعامل آمن</h2>
+  <div class="tip">🤝 اتفق على السعر والمدة كتابةً، واستعمل صفحة "الاتفاق" في التطبيق لتوثيق ما اتفقتما عليه.</div>
+  <div class="tip">💳 لا تدفع المبلغ كاملاً مسبقاً لشخص لا تعرفه، والأفضل الدفع عند الاستلام.</div>
+  <div class="tip">📍 للخدمات المنزلية أخبر شخصاً من عائلتك بالموعد والعنوان.</div>
+  <div class="tip">🔒 لا تشارك كلمات السر أو بياناتك الحساسة مع أحد.</div>
+  <div class="tip">ℹ️ Service DZ منصة تعرض الإعلانات وتساعد على التواصل والتوثيق فقط، ولا تضمن تنفيذ الصفقات بين الطرفين.</div>
 </section>
 </main>
-<nav><button class="on" data-p="home"><span>🏠</span>الرئيسية</button><button data-p="live"><span>🔴</span>بث مباشر</button><button data-p="add"><span>➕</span>اعرض</button><button data-p="mine"><span>👤</span>حسابي</button></nav>
-<div class="toast" id="toast"></div><div class="ovl" id="ovl"><div class="sheet" id="sheet"></div></div>
+
+<nav><button class="on" data-p="home"><span>🏠</span>الرئيسية</button><button data-p="ask"><span>🙋</span>اطلب</button><button data-p="economy"><span>📊</span>الفرص</button><button data-p="add"><span>➕</span>اعرض</button><button data-p="mine"><span>👤</span>حسابي</button></nav>
+<div class="toast" id="toast"></div>
+<div class="ovl" id="ovl"><div class="sheet" id="sheet"></div></div>
 
 <script>
 const SB="https://prajhrpbtmooolqtofrf.supabase.co";
 const KEY="sb_publishable_8ZYtEf8p3hoVrPyv52CzVQ_VWkCWUFg";
 const CATG=[
-{t:"🛠️ الحرف والصيانة",c:[["سباكة","🔧"],["كهرباء","⚡"],["دهن وبناء","🏗️"],["حدادة","⚒️"],["نجارة","🪚"],["ميكانيك","🚗"],["تكييف وتبريد","❄️"],["تنظيف","🧹"],["تصليح هواتف","📲"],["لحام وألمنيوم","🔩"],["زجاج ومرايا","🪟"],["بلاط وجبس","🧱"]]},
-{t:"🎨 فنون وإبداع",c:[["رسم وفن","🎨"],["تصوير","📷"],["خياطة وتطريز","🧵"],["طبخ وحلويات","🍰"],["حفلات ومناسبات","🎉"],["حلاقة وتجميل","💇"],["ألعاب وهدايا","🎁"],["أثاث وديكور","🛋️"],["أعراس وزفاف","💍"],["مطاعم وأكل","🍽️"],["موسيقى وغناء","🎤"],["ورد وتنسيق","💐"]]},
-{t:"🎓 تعليم وخدمات",c:[["دروس","🎓"],["برمجة وتصميم","💻"],["ترجمة وكتابة","✍️"],["صحة ورياضة","💪"],["نقل وشحن","🚚"],["حدائق وزراعة","🌱"],["حيوانات","🐑"],["رعاية أطفال","🧸"],["حجامة وأعشاب","🌿"],["توصيل طلبات","🛵"],["سياقة وتعليم","🚘"],["حراسة وأمن","🛡️"]]},
-{t:"🛒 بيع وشراء",c:[["ملابس","👗"],["كتب","📚"],["إلكترونيات","📱"],["سيارات","🚙"],["عقارات","🏠"],["أجهزة منزلية","📺"],["منتجات منزلية","🍯"],["أحذية وحقائب","👟"],["ساعات ومجوهرات","⌚"],["دراجات ودراجات نارية","🏍️"],["أدوات ومعدات","🧰"],["أخرى","✨"]]}];
-const CATS=CATG.flatMap(g=>g.c.map(x=>x[0])),ICONS=Object.fromEntries(CATG.flatMap(g=>g.c));
+ {t:"🛠️ الحرف والصيانة",k:"a",c:[["سباكة","🔧"],["كهرباء","⚡"],["دهن وبناء","🏗️"],["حدادة","⚒️"],["نجارة","🪚"],["ميكانيك","🚗"],["تكييف وتبريد","❄️"],["تنظيف","🧹"],["تصليح هواتف","📲"],["لحام وألمنيوم","🔩"],["زجاج ومرايا","🪟"],["بلاط وجبس","🧱"]]},
+ {t:"🎨 فنون وإبداع",k:"b",c:[["رسم وفن","🎨"],["تصوير","📷"],["خياطة وتطريز","🧵"],["طبخ وحلويات","🍰"],["حفلات ومناسبات","🎉"],["حلاقة وتجميل","💇"],["ألعاب وهدايا","🎁"],["أثاث وديكور","🛋️"],["أعراس وزفاف","💍"],["مطاعم وأكل","🍽️"],["موسيقى وغناء","🎤"],["ورد وتنسيق","💐"]]},
+ {t:"🎓 تعليم وخدمات",k:"c",c:[["دروس","🎓"],["برمجة وتصميم","💻"],["ترجمة وكتابة","✍️"],["صحة ورياضة","💪"],["نقل وشحن","🚚"],["حدائق وزراعة","🌱"],["حيوانات","🐑"],["رعاية أطفال","🧸"],["حجامة وأعشاب","🌿"],["توصيل طلبات","🛵"],["سياقة وتعليم","🚘"],["حراسة وأمن","🛡️"]]},
+ {t:"🛒 بيع وشراء",k:"d",c:[["ملابس","👗"],["كتب","📚"],["إلكترونيات","📱"],["سيارات","🚙"],["عقارات","🏠"],["أجهزة منزلية","📺"],["منتجات منزلية","🍯"],["أحذية وحقائب","👟"],["ساعات ومجوهرات","⌚"],["دراجات ودراجات نارية","🏍️"],["أدوات ومعدات","🧰"],["أخرى","✨"]]}
+];
+const CATS=CATG.flatMap(g=>g.c.map(x=>x[0]));
+const ICONS=Object.fromEntries(CATG.flatMap(g=>g.c));
 const WIL=["أدرار","الشلف","الأغواط","أم البواقي","باتنة","بجاية","بسكرة","بشار","البليدة","البويرة","تمنراست","تبسة","تلمسان","تيارت","تيزي وزو","الجزائر","الجلفة","جيجل","سطيف","سعيدة","سكيكدة","سيدي بلعباس","عنابة","قالمة","قسنطينة","المدية","مستغانم","المسيلة","معسكر","ورقلة","وهران","البيض","إليزي","برج بوعريريج","بومرداس","الطارف","تندوف","تيسمسيلت","الوادي","خنشلة","سوق أهراس","تيبازة","ميلة","عين الدفلى","النعامة","عين تموشنت","غرداية","غليزان","تيميمون","برج باجي مختار","أولاد جلال","بني عباس","عين صالح","عين قزام","تقرت","جانت","المغير","المنيعة","آفلو","بريكة","قصر الشلالة","مسعد","عين وسارة","بوسعادة","الأبيض سيدي الشيخ","القنطرة","بئر العاتر","قصر البخاري","العريشة"].map((w,i)=>String(i+1).padStart(2,"0")+" - "+w);
-const $=id=>document.getElementById(id),esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])),toast=m=>{let t=$("toast");t.textContent=m;t.classList.add("on");setTimeout(()=>t.classList.remove("on"),2800)},fmt=n=>Number(n).toLocaleString("ar-DZ")+" دج",short=w=>String(w||"").replace(/^\d+ - /,""),opt=a=>a.map(c=>`<option>${c}</option>`).join(""),wa=p=>"https://wa.me/213"+String(p||"").replace(/^0/,""),okPh=p=>/^0[567]\d{8}$/.test(p);
+const XY=[[27.87,-0.29],[36.16,1.33],[33.80,2.88],[35.88,7.11],[35.56,6.17],[36.75,5.08],[34.85,5.73],[31.62,-2.22],[36.47,2.83],[36.37,3.90],[22.79,5.53],[35.40,8.12],[34.88,-1.32],[35.37,1.32],[36.71,4.05],[36.75,3.06],[34.67,3.26],[36.82,5.77],[36.19,5.41],[34.83,0.15],[36.88,6.91],[35.19,-0.63],[36.90,7.77],[36.46,7.43],[36.37,6.61],[36.26,2.75],[35.93,0.09],[35.70,4.54],[35.40,0.14],[31.95,5.32],[35.70,-0.63],[33.68,1.02],[26.48,8.47],[36.07,4.76],[36.76,3.48],[36.77,8.31],[27.67,-8.15],[35.61,1.81],[33.37,6.86],[35.43,7.14],[36.29,7.95],[36.59,2.44],[36.45,6.26],[36.26,1.97],[33.27,-0.31],[35.30,-1.14],[32.49,3.67],[35.74,0.56],[29.26,0.23],[21.33,0.95],[34.43,5.07],[30.13,-2.17],[27.20,2.48],[19.57,5.77],[33.10,6.06],[24.55,9.48],[33.95,5.92],[30.58,2.88],[34.112,2.102],[35.392,5.365],[35.212,2.318],[34.155,3.490],[35.451,2.905],[35.218,4.174],[32.930,0.520],[35.339,5.728],[34.744,8.060],[35.889,2.749],[34.215,-1.238]];
+const PLANS=[["1m","شهر واحد"],["3m","3 أشهر"],["6m","6 أشهر"],["12m","سنة كاملة"]];
+
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const toast=m=>{const t=$("toast");t.textContent=m;t.classList.add("on");setTimeout(()=>t.classList.remove("on"),2800)};
+const fmt=n=>Number(n).toLocaleString("ar-DZ")+" دج";
+const wa=ph=>"https://wa.me/213"+esc(String(ph).replace(/^0/,""));
+const okPh=p=>/^0[567]\d{8}$/.test(p);
+const opt=a=>a.map(c=>`<option>${c}</option>`).join("");
+const short=w=>String(w||"").replace(/^\d+ - /,"");
+const dt=x=>x?new Date(x).toLocaleString("ar-DZ"):"—";
+
 let SES=null;try{SES=JSON.parse(localStorage.getItem("sdz_ses")||"null")}catch(e){}
-const uidOf=()=>SES?.user?.id;let L=[],R=[],OFF=[],SET={},FEAT=new Set(),cat="",Q="",WF="",loaded=false;
-async function raw(path,{method="GET",body,auth=true}={}){let h={apikey:KEY};if(body)h["Content-Type"]="application/json";if(auth&&SES)h.Authorization="Bearer "+SES.access_token;let r=await fetch(SB+path,{method,headers:h,body:body?JSON.stringify(body):undefined}),t=await r.text(),d=null;try{d=t?JSON.parse(t):null}catch(e){}if(!r.ok)throw Error(d?.message||d?.msg||"خطأ "+r.status);return d}
-async function api(p,o){return raw(p,o)}
-async function loadAll(){
-try{L=await api("/rest/v1/listings?select=*&order=created_at.desc&limit=200")}catch(e){L=[]}
-try{R=await api("/rest/v1/requests?select=*&order=created_at.desc&limit=100")}catch(e){R=[]}
-try{let f=await raw("/rest/v1/rpc/featured_users",{method:"POST",body:{},auth:false});FEAT=new Set((f||[]).map(x=>x.user_id))}catch(e){FEAT=new Set()}
-if(!Object.keys(SET).length)try{let s=await raw("/rest/v1/app_settings?select=key,value",{auth:false});SET=Object.fromEntries((s||[]).map(x=>[x.key,x.value]))}catch(e){}
-if(SES)try{OFF=await api("/rest/v1/offers?select=*&order=created_at.desc&limit=100")}catch(e){OFF=[]}
-loaded=true;renderCats();render();renderAsk();renderMine()
+const uidOf=()=>SES&&SES.user&&SES.user.id;
+let PROF=null,DUES=[],QRAW=[],QN=[],SC=new Map(),RATED=new Set(),LO=false,EW="",REC=false,L=[],R=[],OFF=[],SUBS=[],FEAT=new Set(),SET={},cat="",Q="",WF="",loaded=false,loadErr="";
+const saveSes=()=>{try{SES?localStorage.setItem("sdz_ses",JSON.stringify(SES)):localStorage.removeItem("sdz_ses")}catch(e){}};
+const AR_ERR={"Invalid login credentials":"البريد أو كلمة السر غير صحيحة","User already registered":"هذا البريد مسجل مسبقاً، اضغط دخول","Email not confirmed":"يجب تأكيد بريدك أولاً","Password should be at least 6 characters":"كلمة السر 6 أحرف على الأقل","Unable to validate email address: invalid format":"صيغة البريد غير صحيحة","not allowed":"غير مسموح لك بهذا الإجراء"};
+
+const isCo=()=>!!PROF&&PROF.account_type==="company";
+async function ensureProfile(){
+  let pp=null;try{pp=JSON.parse(localStorage.getItem("sdz_pp")||"null")}catch(e){}
+  const b=pp&&pp.t==="company"?{account_type:"company",entity_kind:pp.k,company_name:pp.n,commercial_register:pp.r}:{account_type:"trader"};
+  try{await api("/rest/v1/profiles",{method:"POST",body:b});try{localStorage.removeItem("sdz_pp")}catch(e){}PROF=((await api("/rest/v1/profiles?select=*"))||[])[0]||null}catch(e){PROF=null}
 }
-function renderCats(){$("cats").innerHTML=CATG.map(g=>`<div class="grp"><h4>${g.t}</h4><div class="grid">${g.c.map(([c,ic])=>`<button class="cat ${c===cat?"on":""}" data-c="${c}"><i>${ic}</i>${c}<small>${L.filter(x=>x.category===c).length||""}</small></button>`).join("")}</div></div>`).join("");$("stat").textContent=`${L.length} إعلان · ${R.length} طلب`}
-function card(s,own=false){let f=FEAT.has(s.user_id);return `<article class="card ${f?"feat":""}"><div class="top"><div class="ic">${ICONS[s.category]||"🛒"}</div><div style="flex:1"><h3>${esc(s.title)}</h3><div class="meta">${esc(s.name)} ${f?'<span class="fbadge">⭐ تاجر مميز</span>':""}</div><div class="meta">📍 ${esc(short(s.wilaya))}</div></div></div><p class="desc">${esc(s.description)}</p><div><span class="price">${fmt(s.price)}</span><span class="tag">${esc(s.price_type)}</span></div><div class="btns"><a class="btn b1" href="tel:${esc(s.phone)}">📞 اتصال</a><a class="btn b2" target="_blank" href="${wa(s.phone)}">واتساب</a></div>${own?`<div class="btns"><button class="btn b4" data-del="${esc(s.id)}">🗑️ حذف</button></div>`:`<div class="btns"><button class="btn b5" data-bargain="${esc(s.id)}">🔥 اقترح سُومتك</button></div>`}</article>`}
-function render(){let q=Q.toLowerCase().trim(),F=L.filter(s=>(!cat||s.category===cat)&&(!WF||s.wilaya===WF)&&(!q||(s.title+s.name+s.description+s.wilaya+s.category).toLowerCase().includes(q)));F.sort((a,b)=>(FEAT.has(b.user_id)?1:0)-(FEAT.has(a.user_id)?1:0));$("list").innerHTML=F.length?F.map(card).join(""):'<div class="empty">لا توجد إعلانات مطابقة.</div>'}
-function renderAsk(){$("reqs").innerHTML=R.length?R.map(r=>`<article class="card"><h3>${esc(r.title)}</h3><div class="meta">${esc(short(r.wilaya))} · ${esc(r.category)}${r.budget?" · "+fmt(r.budget):""}</div><div class="btns"><a class="btn b1" href="tel:${esc(r.phone)}">📞 اتصال</a><a class="btn b2" href="${wa(r.phone)}">واتساب</a></div></article>`).join(""):'<div class="empty">لا توجد طلبات بعد.</div>'}
-function renderMine(){let on=!!uidOf();$("authBox").style.display=on?"none":"block";$("userBox").style.display=on?"block":"none";$("askForm").style.display=on?"block":"none";$("askLogin").style.display=on?"none":"block";$("addForm").style.display=on?"block":"none";$("addLogin").style.display=on?"none":"block";if(!on)return;$("who").textContent="مسجّل الدخول: "+(SES.user?.email||"");let M=L.filter(s=>s.user_id===uidOf());$("mine").innerHTML=M.length?M.map(s=>card(s,true)).join(""):'<div class="empty">لم تنشر أي إعلان بعد.</div>';$("offBox").innerHTML=OFF.length?OFF.map(o=>`<article class="card"><b>${esc(o.listing_title||"إعلان")}</b><div class="meta">السومة: ${fmt(o.amount)} · ${esc(o.status||"")}</div></article>`).join(""):'<div class="empty">لا توجد سومات بعد.</div>';$("memBox").innerHTML='<p class="sub">عضوية التاجر المميز وإدارة الاشتراكات تبقى كما هي في قاعدة بيانات مشروعك.</p>'}
-function go(p){document.querySelectorAll(".page").forEach(x=>x.classList.toggle("on",x.id==="p-"+p));document.querySelectorAll("nav button").forEach(x=>x.classList.toggle("on",x.dataset.p===p));if(p==="home"||p==="live"||p==="mine")loadAll();scrollTo(0,0)}
-document.querySelector("nav").onclick=e=>{let b=e.target.closest("button");if(b)go(b.dataset.p)}
-document.body.addEventListener("click",e=>{let g=e.target.closest("[data-go]");if(g)go(g.dataset.go);if(e.target.id==="startLive"||e.target.id==="goLiveSetup"||e.target.id==="myLive"){if(!SES){toast("سجّلي الدخول أولاً");return go("mine")}openLiveSetup()}});
-function openLiveSetup(){openSheet(`<h2 style="margin-top:0">🔴 تجهيز البث المباشر</h2><p class="sub">هذه الواجهة جاهزة، لكن تشغيل بث حقيقي للعديد من المشاهدين يحتاج ربط خدمة بث مثل Cloudflare Stream عبر خادم آمن. لا تضعي مفاتيح سرية داخل index.html.</p><div class="note">بعد الربط يمكن للتاجر تشغيل الكاميرا، الحصول على رابط البث، ونشره للزبائن. كما يمكن فرض اشتراك مدفوع على البث.</div><div class="btns"><button class="btn b1" data-close>حسنًا</button></div>`)}
-function openSheet(h){$("sheet").innerHTML=h;$("ovl").classList.add("on")}function closeSheet(){$("ovl").classList.remove("on")}
-$("ovl").onclick=e=>{if(e.target===$("ovl")||e.target.closest("[data-close]"))closeSheet()}
-$("cats").onclick=e=>{let b=e.target.closest("[data-c]");if(b){cat=cat===b.dataset.c?"":b.dataset.c;renderCats();render()}}
-$("q").oninput=e=>{Q=e.target.value;render()};$("wf").onchange=e=>{WF=e.target.value;render()}
-$("list").onclick=async e=>{let d=e.target.closest("[data-del]"),b=e.target.closest("[data-bargain]");if(d&&confirm("حذف إعلانك؟"))try{await api("/rest/v1/listings?id=eq."+encodeURIComponent(d.dataset.del),{method:"DELETE"});toast("تم الحذف ✔");loadAll()}catch(x){toast(x.message)}if(b)toast("السومة ستُضاف في النسخة الكاملة من نظام التفاوض")}
+function setSes(d){SES={access_token:d.access_token,refresh_token:d.refresh_token,expires_at:Math.floor(Date.now()/1000)+(d.expires_in||3600),user:d.user};saveSes()}
+async function raw(path,{method="GET",body,auth=true}={}){
+  const h={apikey:KEY};if(body)h["Content-Type"]="application/json";
+  if(auth&&SES)h.Authorization="Bearer "+SES.access_token;
+  const r=await fetch(SB+path,{method,headers:h,body:body?JSON.stringify(body):undefined});
+  const t=await r.text();let d=null;try{d=t?JSON.parse(t):null}catch(e){}
+  if(!r.ok){const m=(d&&(d.msg||d.message||d.error_description||d.error))||("خطأ "+r.status);const e=new Error(AR_ERR[m]||m);e.status=r.status;throw e}
+  return d;
+}
+async function refresh(){
+  if(!SES||!SES.refresh_token||REC)return;
+  if(SES.expires_at*1000>Date.now()+60000)return;
+  try{setSes(await raw("/auth/v1/token?grant_type=refresh_token",{method:"POST",body:{refresh_token:SES.refresh_token},auth:false}))}
+  catch(e){SES=null;saveSes();applyAuth()}
+}
+async function api(path,o){await refresh();return raw(path,o)}
+async function getList(path){try{return await api(path)}catch(e){if(e.status===401||e.status===403)return await raw(path,{auth:false});throw e}}
+
+async function loadAll(){
+  loadErr="";
+  try{L=(await getList("/rest/v1/listings?select=*&order=created_at.desc&limit=200"))||[]}
+  catch(e){L=[];loadErr="تعذر تحميل الإعلانات. السبب: "+(e&&e.status?"["+e.status+"] ":"")+(e&&e.message||e)}
+  try{R=(await getList("/rest/v1/requests?select=*&order=created_at.desc&limit=100"))||[]}catch(e){R=[]}
+  try{const f=await raw("/rest/v1/rpc/featured_users",{method:"POST",body:{},auth:false});FEAT=new Set((f||[]).map(x=>x.user_id))}catch(e){FEAT=new Set()}
+  try{SC=new Map(((await raw("/rest/v1/rpc/trader_scores",{method:"POST",body:{},auth:false}))||[]).map(x=>[x.user_id,x]))}catch(e){SC=new Map()}
+  if(!Object.keys(SET).length){try{const s=await raw("/rest/v1/app_settings?select=key,value",{auth:false});SET=Object.fromEntries((s||[]).map(x=>[x.key,x.value]))}catch(e){}}
+  if(SES&&!REC){
+    try{OFF=(await api("/rest/v1/offers?select=*&order=created_at.desc&limit=100"))||[]}catch(e){OFF=[]}
+    try{SUBS=(await api("/rest/v1/subscriptions?select=*&order=created_at.desc&limit=20"))||[]}catch(e){SUBS=[]}
+    try{PROF=((await api("/rest/v1/profiles?select=*"))||[])[0]||null}catch(e){PROF=null}
+    if(!PROF)await ensureProfile();
+    try{QRAW=(await api("/rest/v1/quotes?select=*&order=created_at.desc&limit=200"))||[]}catch(e){QRAW=[]}
+    QN=QRAW.map(normQ);
+    try{RATED=new Set(((await api("/rest/v1/ratings?select=deal_id"))||[]).map(x=>x.deal_id))}catch(e){RATED=new Set()}
+    try{DUES=(await api("/rest/v1/commissions?select=*&status=eq.due&order=created_at.desc"))||[]}catch(e){DUES=[]}
+  }else{OFF=[];SUBS=[];PROF=null;DUES=[];QRAW=[];QN=[];RATED=new Set()}
+  loaded=true;renderCats();render();renderAsk();renderMine();renderTicker();renderEconomy();
+}
+
+function renderTicker(){
+  const t=$("ticker");
+  if(L.length){t.style.display="block";t.textContent="🆕 أحدث إعلان: "+L[0].title+" — "+short(L[0].wilaya)}else t.style.display="none";
+}
+function renderCats(){
+  $("cats").innerHTML=CATG.map(g=>`<div class="grp g-${g.k}"><h4>${g.t}</h4><div class="grid">${g.c.map(([c,ic])=>{const n=L.filter(x=>x.category===c).length;return `<button class="cat ${c===cat?"on":""}" data-c="${c}"><i>${ic}</i>${c}<small>${n?n+" إعلان":""}</small></button>`}).join("")}</div></div>`).join("");
+  $("stat").textContent=L.length||R.length?`${L.length} إعلان · ${R.length} طلب`:"كن أول من ينشر في منطقتك 👋";
+}
+function cardHtml(s,own){
+  const f=FEAT.has(s.user_id);
+  return `<article class="card ${f?"feat":""}"><div class="top"><div class="ic">${ICONS[s.category]||"🛒"}</div><div style="flex:1"><h3>${esc(s.title)}</h3><div class="meta">${esc(s.name)} ${scoreOf(s.user_id)}${f?'<span class="fbadge">✔ تاجر مشترك</span>':""}</div><div class="meta">📍 ${esc(short(s.wilaya))}</div></div></div>
+  <p class="desc">${esc(s.description)}</p><div><span class="price">${fmt(s.price)}</span><span class="tag">${esc(s.price_type)}</span>${s.origin==="محلي"?'<span class="tag" style="margin-inline-start:6px">🇩🇿 محلي</span>':""}</div>
+  <div class="btns"><a class="btn b1" href="tel:${esc(s.phone)}">📞 اتصال</a><a class="btn b2" target="_blank" rel="noopener" href="${wa(s.phone)}">واتساب</a></div>
+  <div class="btns">${own?`<button class="btn b4" data-del="${esc(s.id)}" style="padding:6px;font-size:12px">🗑️ حذف إعلاني</button>`:`<button class="btn b5" data-bargain="${esc(s.id)}">🔥 اقترح سُومتك</button><button class="btn b4" data-rep="${esc(s.id)}" style="flex:.5">🚩 إبلاغ</button>`}</div></article>`;
+}
+function render(){
+  if(!loaded){$("list").innerHTML='<div class="empty">جارٍ التحميل...</div>';return}
+  if(loadErr){$("list").innerHTML=`<div class="empty">${esc(loadErr)}<div class="btns"><button class="btn b3" id="retry">إعادة المحاولة</button></div></div>`;return}
+  const q=Q.trim().toLowerCase();
+  const F=L.filter(s=>(!cat||s.category===cat)&&(!WF||s.wilaya===WF)&&(!LO||s.origin==="محلي")&&(!q||(s.title+s.name+s.description+s.wilaya+s.category).toLowerCase().includes(q)));
+  F.sort((a,b)=>(FEAT.has(b.user_id)?1:0)-(FEAT.has(a.user_id)?1:0));
+  $("list").innerHTML=F.length?F.map(s=>cardHtml(s,false)).join(""):'<div class="empty">لا توجد إعلانات مطابقة. كن أول من ينشر من تبويب "اعرض".</div>';
+}
+function renderAsk(){
+  const uid=uidOf();
+  $("reqs").innerHTML=R.length?R.map(r=>`<article class="card"><div class="top"><div class="ic">${ICONS[r.category]||"🙋"}</div><div style="flex:1"><h3>${esc(r.title)}</h3><div class="meta">${esc(short(r.wilaya))} · ${esc(r.category)}${r.budget?" · ميزانية "+fmt(r.budget):""}</div></div></div>
+  <div class="btns"><a class="btn b1" href="tel:${esc(r.phone)}">📞 اتصال</a><a class="btn b2" target="_blank" rel="noopener" href="${wa(r.phone)}">واتساب</a>${uid&&r.user_id===uid?`<button class="btn b4" data-delr="${esc(r.id)}">حذف</button>`:""}</div>${qBtn(r,uid)}</article>`).join(""):'<div class="empty">لا توجد طلبات بعد.</div>';
+}
+
+const OST={pending:"⏳ بانتظار الرد",accepted:"✅ مقبولة",rejected:"❌ مرفوضة"};
+function offerCard(o,uid){
+  const incoming=o.seller_id===uid;
+  let h=`<article class="card"><h3 style="font-size:15px">${esc(o.listing_title||"إعلان")}</h3>
+  <div class="meta">${incoming?"سُومة من: "+esc(o.buyer_name)+" · "+esc(o.buyer_phone):"أرسلتَ سُومتك إلى: "+esc(o.seller_name||"التاجر")}</div>
+  <div class="meta">السعر المعروض: ${fmt(o.listing_price||0)} · <b>السُّومة: ${fmt(o.amount)}</b></div>
+  ${o.note?`<div class="meta">📝 ${esc(o.note)}</div>`:""}<div class="st">${OST[o.status]||esc(o.status)}${o.received_at?" · 🎉 تمّت الصفقة":o.delivered_at?" · 📦 تم التسليم":""}</div>`;
+  if(incoming&&o.status==="pending")h+=`<div class="btns"><button class="btn b1" data-accept="${esc(o.id)}">✅ قبول</button><button class="btn b4" data-reject="${esc(o.id)}">❌ رفض</button></div><div class="btns"><a class="btn b3" href="tel:${esc(o.buyer_phone)}">📞 اتصال بالمشتري</a></div>`;
+  if(o.status==="accepted")h+=`<div class="btns"><button class="btn b1" data-contract="${esc(o.id)}">📄 عرض الاتفاق</button></div>`;
+  return h+"</article>";
+}
+function tierNote(){
+  if(!isCo())return `<div class="tip">🏪 حساب تاجر/فرد: اشتراك ثابت بلا نسبة على صفقاتك.</div>`;
+  let h=`<div class="tip">🏢 حساب ${esc(PROF.entity_kind||"شركة/مؤسسة")}${PROF.verified?" ✔ موثّق":" — بانتظار توثيق السجل التجاري"}. يُضاف إلى الاشتراك ${esc(SET.commission_pct||"1.5")}% من قيمة كل صفقة تكتمل (بحد أقصى ${fmt(SET.commission_cap||30000)}).</div>`;
+  if(DUES.length){const tot=DUES.reduce((a,d)=>a+Number(d.fee||0),0);h+=`<div class="tip">💳 رسوم صفقات مستحقة: <b>${fmt(tot)}</b> (${DUES.length} صفقة). حوّلها إلى حساب CCP أدناه وتُسجَّل بعد مراجعة الإدارة. التأخر أكثر من 14 يوماً يوقف النشر وقبول الصفقات.</div>`}
+  return h;
+}
+function trialNote(){
+  const t=SET.trial_until;
+  return t&&new Date(t+"T23:59:59")>=new Date()?`<div class="tip">🎁 فترة تجريبية مجانية للجميع حتى ${esc(t)}، ثم يلزم الاشتراك للنشر وقبول السُّومات.</div>`:"";
+}
+function memHtml(){
+  const now=new Date(),act=SUBS.find(s=>s.status==="active"&&s.ends_at&&new Date(s.ends_at)>now),pen=SUBS.find(s=>s.status==="pending");
+  let h=trialNote()+tierNote();
+  if(act)h+=`<div class="st">✔ اشتراكك سارٍ حتى ${dt(act.ends_at)}</div><p class="sub">يمكنك نشر الإعلانات وقبول السُّومات، وتظهر بشارة "تاجر مشترك".</p>`;
+  if(pen)h+=`<div class="st">⏳ طلب اشتراكك قيد المراجعة (المرجع: ${esc(pen.reference)})</div>`;
+  const pre=isCo()?"cprice_":"price_",priced=PLANS.filter(p=>SET[pre+p[0]]);
+  if(!SET.ccp_number||!priced.length)return h+'<p class="sub">التسجيل في العضوية المميزة سيُفتح قريباً.</p>';
+  h+=`<p class="sub">الاشتراك يتيح لك نشر الإعلانات وقبول السُّومات وشارة "تاجر مشترك". المشتري يستعمل التطبيق مجاناً.</p>
+  <label>مدة الاشتراك</label><select id="mp">${priced.map(p=>`<option value="${p[0]}">${p[1]} — ${fmt(SET[pre+p[0]])}</option>`).join("")}</select>
+  <div class="tip">1) حوّل المبلغ إلى حساب CCP:<br><b>${esc(SET.ccp_name||"")}</b><br><b dir="ltr">${esc(SET.ccp_number)}</b>${SET.membership_note?"<br>"+esc(SET.membership_note):""}<br>2) اكتب رقم عملية التحويل أدناه ثم اضغط إرسال. يتم التفعيل بعد مراجعة التحويل.</div>
+  <label>رقم عملية التحويل</label><input id="mref" maxlength="60" dir="ltr">
+  <div class="btns"><button class="btn b1" id="subBtn">إرسال طلب الاشتراك</button></div>`;
+  return h;
+}
+function renderMine(){
+  const uid=uidOf();
+  if(!uid)return;
+  const inc=OFF.filter(o=>o.seller_id===uid),out=OFF.filter(o=>o.buyer_id===uid);
+  const oh=(inc.length?'<h3 style="font-size:15px;margin-top:10px">واردة إليك</h3>'+inc.map(o=>offerCard(o,uid)).join(""):"")+(out.length?'<h3 style="font-size:15px;margin-top:14px">أرسلتَها</h3>'+out.map(o=>offerCard(o,uid)).join(""):"");
+  const qin=QN.filter(o=>o.buyer_id===uid),qout=QN.filter(o=>o.seller_id===uid);
+  const qh=(qin.length?'<h3 style="font-size:15px;margin-top:14px">عروض أسعار على طلباتك</h3>'+qin.map(o=>quoteCard(o,uid)).join(""):"")+(qout.length?'<h3 style="font-size:15px;margin-top:14px">عروض أسعار قدمتَها</h3>'+qout.map(o=>quoteCard(o,uid)).join(""):"");
+  $("offBox").innerHTML=(oh+qh)||'<div class="empty">لا توجد سُومات أو عروض أسعار بعد.</div>';
+  $("memBox").innerHTML=memHtml();
+  const M=L.filter(s=>s.user_id===uid);
+  $("mine").innerHTML=M.length?M.map(s=>cardHtml(s,true)).join(""):'<div class="empty">لم تنشر أي إعلان بعد.</div>';
+}
+function applyAuth(){
+  const on=!!SES&&!REC;
+  $("authBox").style.display=(on||REC)?"none":"block";
+  $("recBox").style.display=REC?"block":"none";
+  $("userBox").style.display=on?"block":"none";
+  $("askForm").style.display=on?"block":"none";$("askLogin").style.display=on?"none":"block";
+  $("addForm").style.display=on?"block":"none";$("addLogin").style.display=on?"none":"block";
+  if(on)$("who").textContent="مسجّل الدخول: "+(SES.user&&SES.user.email||"");
+  renderMine();renderAsk();
+}
+function checkRecovery(){
+  const h=new URLSearchParams(location.hash.replace(/^#/,""));
+  if(h.get("type")==="recovery"&&h.get("access_token")){
+    SES={access_token:h.get("access_token"),refresh_token:h.get("refresh_token")||"",expires_at:Math.floor(Date.now()/1000)+(+h.get("expires_in")||3600),user:null};
+    history.replaceState(null,"",location.pathname);REC=true;
+  }
+}
+function go(p){
+  document.querySelectorAll(".page").forEach(e=>e.classList.toggle("on",e.id==="p-"+p));
+  document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on",b.dataset.p===p));
+  if(p==="home"||p==="ask"||p==="mine"||p==="economy")loadAll();
+  scrollTo(0,0);
+}
+
+/* sheet */
+const openSheet=h=>{$("sheet").innerHTML=h;$("ovl").classList.add("on")};
+const closeSheet=()=>$("ovl").classList.remove("on");
+$("ovl").addEventListener("click",e=>{if(e.target===$("ovl")||e.target.closest("[data-close]"))closeSheet()});
+
+function offerForm(s){
+  openSheet(`<h2 style="margin-top:0">🔥 اقترح سُومتك</h2><p class="sub">${esc(s.title)} — السعر المعروض: ${fmt(s.price)}</p>
+  <label>سُومتك (دج)</label><input id="of_amt" type="number" min="1" inputmode="numeric">
+  <label>اسمك</label><input id="of_name" maxlength="40">
+  <label>رقم هاتفك (يراه التاجر)</label><input id="of_ph" type="tel" inputmode="tel" placeholder="05XXXXXXXX">
+  <label>ملاحظة (اختياري)</label><input id="of_note" maxlength="200" placeholder="مثال: أستلمها يوم الخميس">
+  <div class="btns" style="margin-top:14px"><button class="btn b1" data-sendoffer="${esc(s.id)}">إرسال السُّومة</button><button class="btn b3" data-close="1">إلغاء</button></div>`);
+}
+function contractOf(o){
+  const ref="SDZ-"+String(o.id).slice(0,8).toUpperCase();
+  const t=["اتفاق بيع وشراء — Service DZ","الرقم المرجعي: "+ref,"تاريخ تقديم العرض: "+dt(o.created_at),"تاريخ قبول البائع: "+dt(o.decided_at),"",
+  "الطرف الأول (البائع/مقدّم الخدمة): "+(o.seller_name||"—"),"الهاتف: "+(o.seller_phone||"—"),"الولاية: "+short(o.listing_wilaya),"",
+  "الطرف الثاني (المشتري): "+o.buyer_name,"الهاتف: "+o.buyer_phone,"",
+  "موضوع الاتفاق: "+(o.listing_title||"—"),(o._q?"ميزانية الطلب: ":"السعر المعروض: ")+fmt(o.listing_price||0),"السعر المتفق عليه: "+fmt(o.amount),o.delivery_days?"مدة التسليم: "+o.delivery_days+" يوم":"",o.note?"ملاحظة المشتري: "+o.note:"","",
+  "البنود:","1) يلتزم البائع بتسليم المبيع أو أداء الخدمة بالمواصفات المعلنة في الإعلان.","2) يلتزم المشتري بدفع المبلغ المتفق عليه بالطريقة والموعد اللذين يتفق عليهما الطرفان كتابياً.","3) يحدد الطرفان مكان وموعد التسليم بالتراضي.","4) يسعى الطرفان لحل أي خلاف وديّاً، ولكل منهما اللجوء إلى الجهات المختصة.","",
+  "حالة التأكيد:","تأكيد البائع: "+(o.seller_confirmed_at?"✔ بتاريخ "+dt(o.seller_confirmed_at):"لم يؤكد بعد"),"تأكيد المشتري: "+(o.buyer_confirmed_at?"✔ بتاريخ "+dt(o.buyer_confirmed_at):"لم يؤكد بعد"),"إعلان التسليم (البائع): "+(o.delivered_at?"✔ بتاريخ "+dt(o.delivered_at):"لم يتم بعد"),"تأكيد الاستلام (المشتري): "+(o.received_at?"✔ بتاريخ "+dt(o.received_at):"لم يتم بعد"),"",
+  "تنبيه: هذه الوثيقة تسجّل ما اتفق عليه الطرفان عبر تطبيق Service DZ، وهي سجل لما اتفق عليه الطرفان، ولا تغني عن الإجراءات القانونية ولا يُضمن الاعتداد بها في كل الحالات. Service DZ وسيط تقني فقط ولا يضمن التنفيذ ولا الدفع ولا التسليم، وبعض العقود (كالعقارات والسيارات) تتطلب إجراءات قانونية إضافية."];
+  return t.join("\n");
+}
+const normQ=q=>({id:q.id,_q:1,request_id:q.request_id,seller_id:q.supplier_id,buyer_id:q.requester_id,seller_name:q.supplier_name,seller_phone:q.supplier_phone,buyer_name:q.requester_name||"صاحب الطلب",buyer_phone:q.requester_phone,listing_title:q.request_title,listing_price:q.request_budget,listing_wilaya:q.request_wilaya,amount:q.amount,note:q.note,delivery_days:q.delivery_days,status:q.status,created_at:q.created_at,decided_at:q.decided_at,seller_confirmed_at:q.seller_confirmed_at,buyer_confirmed_at:q.buyer_confirmed_at,delivered_at:q.delivered_at,received_at:q.received_at});
+const scoreOf=u=>{const x=SC.get(u);return x?`<span class="tag">⭐ ${x.avg} · ${x.n} تقييم</span>`:""};
+const dealOf=id=>OFF.find(x=>x.id===id)||QN.find(x=>x.id===id);
+async function qRespond(id,acc){
+  try{await api("/rest/v1/rpc/respond_quote",{method:"POST",body:{p_id:id,p_accept:acc}});toast(acc?"تم اختيار العرض ✔":"تم الرفض");await loadAll();if(acc)showContract(id);else closeSheet()}
+  catch(x){toast(x.message)}
+}
+function quoteCard(o,uid){
+  const mineReq=o.buyer_id===uid;
+  let h=`<article class="card"><h3 style="font-size:15px">📋 ${esc(o.listing_title||"طلب")}</h3>
+  <div class="meta">${mineReq?"عرض من: "+esc(o.seller_name)+" · "+esc(o.seller_phone):"عرضك على طلب في: "+esc(short(o.listing_wilaya))}</div>
+  <div class="meta">ميزانية الطلب: ${fmt(o.listing_price||0)} · <b>السعر المعروض: ${fmt(o.amount)}</b>${o.delivery_days?" · التسليم خلال "+o.delivery_days+" يوم":""}</div>
+  ${o.note?`<div class="meta">📝 ${esc(o.note)}</div>`:""}<div class="st">${OST[o.status]||esc(o.status)}${o.received_at?" · 🎉 تمّت الصفقة":o.delivered_at?" · 📦 تم التسليم":""}</div>`;
+  if(mineReq&&o.status==="pending")h+=`<div class="btns"><button class="btn b1" data-qaccept="${esc(o.id)}">✅ اختيار العرض</button><button class="btn b4" data-qreject="${esc(o.id)}">❌ رفض</button></div>`;
+  if(o.status==="accepted")h+=`<div class="btns"><button class="btn b1" data-contract="${esc(o.id)}">📄 عرض الاتفاق</button></div>`;
+  return h+"</article>";
+}
+function qBtn(r,uid){
+  if(uid&&r.user_id===uid){const n=QN.filter(q=>q.request_id===r.id).length;return `<div class="btns"><button class="btn b5" data-qview="${esc(r.id)}">💰 عروض الأسعار (${n})</button></div>`}
+  const mine=uid&&QN.find(q=>q.request_id===r.id&&q.seller_id===uid);
+  if(mine)return `<div class="st">✔ قدّمتَ عرضك: ${fmt(mine.amount)}</div>`;
+  return `<div class="btns"><button class="btn b5" data-qsend="${esc(r.id)}">💰 قدّم عرض سعر</button></div>`;
+}
+function quoteForm(r){
+  if(!r)return;
+  openSheet(`<h2 style="margin-top:0">💰 عرض سعر</h2><p class="sub">${esc(r.title)} — ${esc(short(r.wilaya))}${r.budget?" — الميزانية: "+fmt(r.budget):""}</p>
+  <label>سعرك الإجمالي (دج)</label><input id="q_amt" type="number" min="1" inputmode="numeric">
+  <label>مدة التسليم (بالأيام)</label><input id="q_days" type="number" min="1" inputmode="numeric">
+  <label>اسمك أو اسم مؤسستك</label><input id="q_name" maxlength="40">
+  <label>رقم هاتفك</label><input id="q_ph" type="tel" inputmode="tel" placeholder="05XXXXXXXX">
+  <label>ملاحظة (اختياري)</label><input id="q_note" maxlength="200">
+  <div class="btns" style="margin-top:14px"><button class="btn b1" data-qdo="${esc(r.id)}">إرسال العرض</button><button class="btn b3" data-close="1">إلغاء</button></div>`);
+}
+function quotesSheet(rid){
+  const r=R.find(x=>x.id===rid),qs=QN.filter(q=>q.request_id===rid).sort((a,b)=>a.amount-b.amount);
+  openSheet(`<h2 style="margin-top:0">💰 عروض الأسعار</h2><p class="sub">${esc(r?r.title:"")}${r&&r.budget?" — ميزانيتك: "+fmt(r.budget):""}</p>`+(qs.length?qs.map((q,i)=>{const low=i===0&&q.status==="pending";return `<article class="card${low?" feat":""}"><h3 style="font-size:15px">${esc(q.seller_name)} ${scoreOf(q.seller_id)}${low?'<span class="fbadge">الأقل سعراً</span>':""}</h3><div class="meta"><b>${fmt(q.amount)}</b>${q.delivery_days?" · التسليم خلال "+q.delivery_days+" يوم":""}</div>${q.note?`<div class="meta">📝 ${esc(q.note)}</div>`:""}<div class="st">${OST[q.status]||esc(q.status)}</div>${q.status==="pending"?`<div class="btns"><button class="btn b1" data-qaccept="${esc(q.id)}">✅ اختيار هذا العرض</button><button class="btn b4" data-qreject="${esc(q.id)}">❌</button></div>`:""}${q.status==="accepted"?`<div class="btns"><button class="btn b1" data-contract="${esc(q.id)}">📄 الاتفاق</button></div>`:""}</article>`}).join(""):'<div class="empty">لا توجد عروض بعد.</div>')+`<div class="btns"><button class="btn b3" data-close="1">إغلاق</button></div>`);
+}
+function stageBar(o){
+  const both=o.seller_confirmed_at&&o.buyer_confirmed_at,c=(x)=>x?' class="on"':'';
+  return `<div class="workflow noprint"><span class="on">قبول</span><span${c(both)}>اتفاق</span><span${c(o.delivered_at)}>تسليم</span><span${c(o.received_at)}>استلام</span></div>`;
+}
+function stageBtn(o,uid){
+  if(o.status!=="accepted")return "";
+  const both=o.seller_confirmed_at&&o.buyer_confirmed_at,isS=o.seller_id===uid,isB=o.buyer_id===uid;
+  if(o.received_at)return `<p class="sub noprint">🎉 تمّت الصفقة: سلّم البائع وأكد المشتري الاستلام.</p>`+(RATED.has(o.id)?`<p class="sub noprint">✔ شكراً، قيّمتَ هذه الصفقة.</p>`:`<p class="sub noprint">قيّم الطرف الآخر:</p><div class="btns noprint">${[1,2,3,4,5].map(n=>`<button class="btn b3" data-rate="${n}" data-id="${esc(o.id)}">${n}⭐</button>`).join("")}</div>`);
+  if(!both)return `<p class="sub noprint">يلزم أن يؤكد الطرفان الاتفاق قبل التسليم.</p>`;
+  if(isS&&!o.delivered_at)return `<div class="btns noprint"><button class="btn b5" data-stage="delivered" data-id="${esc(o.id)}">📦 أعلنتُ التسليم</button></div>`;
+  if(isB&&o.delivered_at)return `<div class="btns noprint"><button class="btn b5" data-stage="received" data-id="${esc(o.id)}">✅ أؤكد أني استلمت</button></div>`;
+  return `<p class="sub noprint">${o.delivered_at?"بانتظار تأكيد المشتري للاستلام.":"بانتظار إعلان البائع عن التسليم."}</p>`;
+}
+function showContract(id){
+  const o=dealOf(id);if(!o)return;
+  const uid=uidOf(),mine=o.buyer_id===uid?o.buyer_confirmed_at:o.seller_confirmed_at;
+  openSheet(`<h2 style="margin-top:0">📄 وثيقة الاتفاق</h2><div class="contract">${esc(contractOf(o))}</div>
+  ${stageBar(o)}${stageBtn(o,uid)}<div class="btns noprint">${mine?"":`<button class="btn b1" data-confirm="${esc(o.id)}">✔ أؤكد الاتفاق</button>`}<button class="btn b3" data-copyc="${esc(o.id)}">📋 نسخ</button></div>
+  <div class="btns noprint"><button class="btn b3" data-sharec="${esc(o.id)}">📤 مشاركة</button><button class="btn b3" data-printc="1">🖨️ طباعة / PDF</button></div>
+  <div class="btns noprint"><button class="btn b3" data-close="1">إغلاق</button></div>`);
+}
+async function copyText(t){try{await navigator.clipboard.writeText(t);toast("تم النسخ ✔")}catch(e){prompt("انسخ النص:",t)}}
+
+$("sheet").addEventListener("click",async e=>{
+  const so=e.target.closest("[data-sendoffer]"),cf=e.target.closest("[data-confirm]"),cp=e.target.closest("[data-copyc]"),sh=e.target.closest("[data-sharec]"),pr=e.target.closest("[data-printc]"),st=e.target.closest("[data-stage]"),qd=e.target.closest("[data-qdo]"),qa=e.target.closest("[data-qaccept]"),qr=e.target.closest("[data-qreject]"),ct=e.target.closest("[data-contract]"),rt=e.target.closest("[data-rate]");
+  if(so){
+    const amt=+$("of_amt").value,nm=$("of_name").value.trim(),ph=$("of_ph").value.trim();
+    if(!(amt>0))return toast("اكتب سُومتك");if(!nm)return toast("اكتب اسمك");if(!okPh(ph))return toast("رقم الهاتف غير صحيح");
+    so.disabled=true;
+    try{await api("/rest/v1/offers",{method:"POST",body:{listing_id:so.dataset.sendoffer,amount:amt,buyer_name:nm,buyer_phone:ph,note:$("of_note").value.trim()||null}});closeSheet();toast("تم إرسال سُومتك للتاجر ✔ تجد الرد في حسابي");loadAll()}
+    catch(x){toast(x.message);so.disabled=false}
+  }
+  if(cf){try{await api("/rest/v1/rpc/"+(QN.some(x=>x.id===cf.dataset.confirm)?"confirm_quote":"confirm_deal"),{method:"POST",body:{p_id:cf.dataset.confirm}});await loadAll();showContract(cf.dataset.confirm);toast("تم تأكيدك ✔")}catch(x){toast(x.message)}}
+  if(cp){const o=dealOf(cp.dataset.copyc);if(o)copyText(contractOf(o))}
+  if(sh){const o=dealOf(sh.dataset.sharec);if(o){const t=contractOf(o);if(navigator.share){try{await navigator.share({title:"اتفاق Service DZ",text:t})}catch(x){}}else copyText(t)}}
+  if(st){try{await api("/rest/v1/rpc/"+(QN.some(x=>x.id===st.dataset.id)?"mark_quote":"mark_deal"),{method:"POST",body:{p_id:st.dataset.id,p_step:st.dataset.stage}});await loadAll();showContract(st.dataset.id);toast(st.dataset.stage==="delivered"?"تم تسجيل التسليم ✔":"تم تسجيل الاستلام ✔")}catch(x){toast(x.message)}}
+  if(rt){try{await api("/rest/v1/ratings",{method:"POST",body:{deal_id:rt.dataset.id,stars:+rt.dataset.rate}});toast("شكراً لتقييمك ✔");await loadAll();showContract(rt.dataset.id)}catch(x){toast(x.message)}}
+  if(ct)showContract(ct.dataset.contract);
+  if(qa)qRespond(qa.dataset.qaccept,true);
+  if(qr&&confirm("رفض هذا العرض؟"))qRespond(qr.dataset.qreject,false);
+  if(qd){
+    const amt=+$("q_amt").value,nm=$("q_name").value.trim(),ph=$("q_ph").value.trim(),dd=+$("q_days").value||null;
+    if(!(amt>0))return toast("اكتب سعرك");if(!nm)return toast("اكتب اسمك");if(!okPh(ph))return toast("رقم الهاتف غير صحيح");
+    qd.disabled=true;
+    try{await api("/rest/v1/quotes",{method:"POST",body:{request_id:qd.dataset.qdo,amount:amt,delivery_days:dd,supplier_name:nm,supplier_phone:ph,note:$("q_note").value.trim()||null}});closeSheet();toast("تم إرسال عرضك ✔");loadAll()}
+    catch(x){toast(x.message);qd.disabled=false;if(/اشتراك/.test(x.message)){closeSheet();go("mine")}}
+  }
+  if(pr)window.print();
+});
+
+
+function renderEconomy(){
+  const l=L.filter(x=>!EW||x.wilaya===EW),r=R.filter(x=>!EW||x.wilaya===EW);
+  const loc=l.length?Math.round(100*l.filter(x=>x.origin==="محلي").length/l.length):0;
+  const pr=l.map(x=>+x.price).filter(x=>x>0).sort((a,b)=>a-b),med=pr.length?pr[Math.floor(pr.length/2)]:0;
+  const done=OFF.filter(o=>o.received_at).length+QN.filter(o=>o.received_at).length;
+  $("pulseMetrics").innerHTML=[
+    `<div class="metric"><b>${l.length}</b><span>عروض متاحة</span></div>`,
+    `<div class="metric"><b>${r.length}</b><span>طلبات منشورة</span></div>`,
+    `<div class="metric"><b>${loc}%</b><span>من العروض منتج محلي</span></div>`,
+    `<div class="metric"><b>${med?fmt(med):"—"}</b><span>وسيط الأسعار المعروضة</span></div>`,
+    `<div class="metric"><b>${new Set(L.map(x=>x.wilaya).filter(Boolean)).size}</b><span>ولايات بها عروض</span></div>`,
+    `<div class="metric"><b>${done}</b><span>صفقاتي المكتملة</span></div>`
+  ].join("");
+  const cats={};r.forEach(x=>{cats[x.category]=(cats[x.category]||0)+1});
+  const top=Object.entries(cats).sort((a,b)=>b[1]-a[1]).slice(0,4);
+  $("opportunities").innerHTML=top.length?top.map(([c,n])=>{const sup=l.filter(x=>x.category===c).length,gap=Math.max(0,n-sup);
+    return `<div class="opportunity"><b>🔥 ${esc(c)}</b><div class="meta">طلبات: ${n} · عروض حالية: ${sup}</div><div class="st">${gap?`فرصة محتملة: الطلب أعلى من العرض بـ ${gap}`:"يوجد عرض حالي مناسب لهذه الفئة"}</div></div>`}).join(""):'<div class="empty">عندما تبدأ الطلبات بالوصول ستظهر هنا الفئات ذات الطلب المرتفع.</div>';
+}
+function futureAction(type){
+  if(type==="market")return go("home");
+  if(type==="deals")return openSheet(`<h2 style="margin-top:0">🤝 الصفقات</h2><p class="sub">النظام المقترح: طلب → عروض → قبول → اتفاق → تنفيذ → تسليم → تقييم.</p><div class="workflow"><span>سُومة</span><span>قبول</span><span>اتفاق</span><span>تسليم</span><span>استلام</span></div><div class="tip">تعمل الآن: السُّومة، القبول، تأكيد الطرفين للاتفاق، إعلان التسليم، تأكيد الاستلام. القادم: التقييم وجواز التاجر.</div>`);
+  if(type==="opportunities"||type==="pulse")return go("economy");
+  if(type==="company")return openSheet(`<h2 style="margin-top:0">🏢 فضاء الشركات والمؤسسات</h2><p class="sub">حساب مهني متقدم لنشر الاحتياجات واستقبال عروض المورّدين ومتابعة المعاملات.</p><div class="role"><button data-role="company"><i>🏢</i>شركة</button><button data-role="institution"><i>🏫</i>مؤسسة</button><button data-role="public"><i>🏛️</i>هيئة عمومية</button><button data-role="supplier"><i>👨‍🔧</i>مورد</button></div><div class="tip">هذا القسم واجهة أولية. أي شراء عمومي أو تعاقد مؤسسي يبقى خاضعاً للإجراءات والقوانين الرسمية.</div>`);
+  if(type==="local")return openSheet(`<h2 style="margin-top:0">🇩🇿 محلي</h2><p class="sub">مساحة مخصصة للمنتجات والخدمات المصنوعة أو المقدمة محلياً.</p><div class="tip">في النسخة القادمة نضيف حقولاً واضحة: محلي/مستورد، جديد/مستعمل، منتج محلي، ومصدر المنتج، مع إمكانية التحقق لاحقاً.</div><div class="btns"><button class="btn b1" data-close="1">استكشف السوق</button></div>`);
+  if(type==="trust")return openSheet(`<h2 style="margin-top:0">⭐ جواز التاجر</h2><p class="sub">ملف ثقة يعتمد على مؤشرات واضحة مثل الصفقات المكتملة، نسبة الإتمام، الإلغاءات، سرعة الرد وتوثيق الحساب.</p><div class="tip">النتيجة لا تكون حكماً نهائياً على الشخص، ويجب أن تكون قابلة للمراجعة والاعتراض.</div>`);
+  if(type==="agreement")return openSheet(`<h2 style="margin-top:0">📄 الاتفاق</h2><p class="sub">سجل للاتفاق يشمل الأطراف، السعر، الشروط، الموعد، التسليم ورقم مرجعي للصفقة.</p><div class="tip">التوقيع المرسوم داخل التطبيق في هذه المرحلة هو تأكيد إلكتروني للاتفاق، وليس ادعاءً بأنه توقيع إلكتروني مؤهل وفق كل القوانين.</div>`);
+}
+document.body.addEventListener("click",e=>{
+  const f=e.target.closest("[data-future]"); if(f) futureAction(f.dataset.future);
+  const role=e.target.closest("[data-role]"); if(role) toast("حساب "+({company:"الشركة",institution:"المؤسسة",public:"الهيئة",supplier:"المورّد/المهني"}[role.dataset.role]||"")+" سيُفتح في المرحلة القادمة");
+});
+
+/* clicks */
+document.querySelector("nav").onclick=e=>{const b=e.target.closest("button");if(b)go(b.dataset.p)};
+document.body.addEventListener("click",e=>{
+  const g=e.target.closest("[data-go]");if(g)go(g.dataset.go);
+  if(e.target.id==="retry")loadAll();
+  if(e.target.id==="joinBtn"){go("mine");setTimeout(()=>{const m=$("memBox");if(SES&&m)m.scrollIntoView();else toast("سجّل الدخول أولاً ثم افتح العضوية المميزة")},300)}
+});
+$("cats").onclick=e=>{const b=e.target.closest("[data-c]");if(b){cat=cat===b.dataset.c?"":b.dataset.c;renderCats();render()}};
+$("q").oninput=e=>{Q=e.target.value;render()};
+$("wf").onchange=e=>{WF=e.target.value;render()};
+
+async function listActions(e){
+  const d=e.target.closest("[data-del]"),r=e.target.closest("[data-rep]"),b=e.target.closest("[data-bargain]");
+  if(d&&confirm("حذف إعلانك؟")){try{await api("/rest/v1/listings?id=eq."+encodeURIComponent(d.dataset.del),{method:"DELETE"});toast("تم الحذف ✔");loadAll()}catch(x){toast(x.message)}}
+  if(r){
+    if(!SES){toast("سجّل الدخول أولاً لتبلغ");return go("mine")}
+    const why=prompt("ما سبب الإبلاغ؟");
+    if(why&&why.trim()){try{await api("/rest/v1/reports",{method:"POST",body:{listing_id:r.dataset.rep,reason:why.trim().slice(0,300)}});toast("تم إرسال البلاغ ✔")}catch(x){toast(x.message)}}
+  }
+  if(b){
+    const s=L.find(x=>x.id===b.dataset.bargain);if(!s)return;
+    if(!SES){toast("سجّل الدخول أولاً لتقترح سُومتك");return go("mine")}
+    if(s.user_id===uidOf())return toast("هذا إعلانك");
+    offerForm(s);
+  }
+}
+$("list").onclick=listActions;$("mine").onclick=listActions;
+$("reqs").onclick=async e=>{const qs=e.target.closest("[data-qsend]"),qv=e.target.closest("[data-qview]");if(qs){if(!SES){toast("سجّل الدخول لتقدّم عرضك");return go("mine")}return quoteForm(R.find(x=>x.id===qs.dataset.qsend))}if(qv)return quotesSheet(qv.dataset.qview);const d=e.target.closest("[data-delr]");if(d&&confirm("حذف طلبك؟")){try{await api("/rest/v1/requests?id=eq."+encodeURIComponent(d.dataset.delr),{method:"DELETE"});loadAll()}catch(x){toast(x.message)}}};
+$("offBox").onclick=async e=>{
+  const a=e.target.closest("[data-accept]"),r=e.target.closest("[data-reject]"),c=e.target.closest("[data-contract]"),qa=e.target.closest("[data-qaccept]"),qr=e.target.closest("[data-qreject]");
+  try{
+    if(a){await api("/rest/v1/rpc/respond_offer",{method:"POST",body:{p_id:a.dataset.accept,p_accept:true}});toast("تم قبول السُّومة ✔");await loadAll();showContract(a.dataset.accept)}
+    if(r&&confirm("رفض هذه السُّومة؟")){await api("/rest/v1/rpc/respond_offer",{method:"POST",body:{p_id:r.dataset.reject,p_accept:false}});toast("تم الرفض");loadAll()}
+    if(qa)qRespond(qa.dataset.qaccept,true);
+    if(qr&&confirm("رفض هذا العرض؟"))qRespond(qr.dataset.qreject,false);
+    if(c)showContract(c.dataset.contract);
+  }catch(x){toast(x.message);if(/اشتراك/.test(x.message)){const m=$("memBox");if(m)m.scrollIntoView()}}
+};
+$("memBox").onclick=async e=>{
+  const b=e.target.closest("#subBtn");if(!b)return;
+  const ref=($("mref").value||"").trim(),plan=$("mp").value;
+  if(ref.length<3)return toast("اكتب رقم عملية التحويل");
+  b.disabled=true;
+  try{await api("/rest/v1/subscriptions",{method:"POST",body:{plan,amount:+SET[(isCo()?"cprice_":"price_")+plan]||0,reference:ref}});toast("وصل طلبك ✔ سيُفعَّل بعد مراجعة التحويل");loadAll()}
+  catch(x){toast(x.message);b.disabled=false}
+};
+
+async function auth(kind){
+  const email=$("em").value.trim(),password=$("pw").value;
+  if(!email||password.length<6)return toast("اكتب البريد وكلمة سر من 6 أحرف على الأقل");
+  if(kind==="up"){const t=$("at").value==="trader"?"trader":"company",k=$("at").selectedOptions[0].text,n=$("cn").value.trim(),r=$("cr").value.trim();if(t==="company"&&(!n||!r))return toast("اكتب اسم الجهة ورقم السجل أو الاعتماد");try{localStorage.setItem("sdz_pp",JSON.stringify({t,k,n,r}))}catch(e){}}
+  try{
+    const d=await raw(kind==="up"?"/auth/v1/signup":"/auth/v1/token?grant_type=password",{method:"POST",body:{email,password},auth:false});
+    if(d&&d.access_token){setSes(d);$("pw").value="";applyAuth();loadAll();toast("مرحباً ✔")}
+    else toast("تم إنشاء الحساب. أكّد بريدك من الرسالة ثم اضغط دخول");
+  }catch(x){toast(x.message)}
+}
+$("at").onchange=e=>{$("coBox").style.display=e.target.value!=="trader"?"block":"none"};
 $("login").onclick=()=>auth("in");$("signup").onclick=()=>auth("up");
-async function auth(k){let email=$("em").value.trim(),password=$("pw").value;if(!email||password.length<6)return toast("اكتب البريد وكلمة سر من 6 أحرف على الأقل");try{let d=await raw(k==="up"?"/auth/v1/signup":"/auth/v1/token?grant_type=password",{method:"POST",body:{email,password},auth:false});if(d?.access_token){SES={access_token:d.access_token,user:d.user};localStorage.setItem("sdz_ses",JSON.stringify(SES));toast("مرحباً ✔");renderMine();loadAll()}else toast("تم إنشاء الحساب. أكّد بريدك ثم اضغط دخول")}catch(x){toast(x.message)}}
-$("logout").onclick=()=>{SES=null;localStorage.removeItem("sdz_ses");renderMine();toast("تم تسجيل الخروج")}
-$("save").onclick=async()=>{let t=$("ft").value.trim(),n=$("fn").value.trim(),ph=$("fph").value.trim(),d=$("fd").value.trim();if(!t||!n||!d||!okPh(ph))return toast("أكمل البيانات ورقم الهاتف");try{await api("/rest/v1/listings",{method:"POST",body:{title:t,name:n,category:$("fc").value,wilaya:$("fw").value,price:+$("fp").value||0,price_type:$("ft2").value,phone:ph,description:d}});toast("تم النشر ✔");go("home")}catch(x){toast(x.message)}}
-$("rsave").onclick=async()=>{let t=$("rt").value.trim(),ph=$("rph").value.trim();if(!t||!okPh(ph))return toast("أكمل الطلب ورقم الهاتف");try{await api("/rest/v1/requests",{method:"POST",body:{title:t,category:$("rc").value,wilaya:$("rw").value,budget:+$("rb").value||0,phone:ph}});toast("تم نشر طلبك ✔");loadAll()}catch(x){toast(x.message)}}
-$("fc").innerHTML=opt(CATS);$("rc").innerHTML=opt(CATS);$("fw").innerHTML=opt(WIL);$("rw").innerHTML=opt(WIL);$("wf").innerHTML='<option value="">كل الولايات</option>'+opt(WIL);
-renderMine();loadAll();if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js"));
-</script>
-<script src="session.js"></script>
+$("logout").onclick=async()=>{try{await raw("/auth/v1/logout",{method:"POST"})}catch(e){}SES=null;saveSes();OFF=[];SUBS=[];applyAuth();toast("تم تسجيل الخروج")};
+$("forgot").onclick=async()=>{
+  const email=$("em").value.trim();if(!email)return toast("اكتب بريدك في خانة البريد أولاً");
+  try{await raw("/auth/v1/recover",{method:"POST",body:{email},auth:false});toast("إذا كان البريد مسجلاً ستصلك رسالة فيها رابط")}catch(x){toast(x.message)}
+};
+$("setpw").onclick=async()=>{
+  const pw=$("np").value;if(pw.length<6)return toast("كلمة السر 6 أحرف على الأقل");
+  try{const u=await raw("/auth/v1/user",{method:"PUT",body:{password:pw}});SES.user=u;saveSes();REC=false;$("np").value="";applyAuth();loadAll();toast("تم تغيير كلمة السر ✔")}catch(x){toast(x.message)}
+};
+$("delacc").onclick=async()=>{
+  if(!confirm("هل تريد حذف حسابك وكل بياناتك نهائياً؟"))return;
+  const w=prompt("للتأكيد اكتب كلمة: حذف");if(!w||w.trim()!=="حذف")return toast("تم الإلغاء");
+  try{await api("/rest/v1/rpc/delete_my_account",{method:"POST",body:{}});SES=null;saveSes();OFF=[];SUBS=[];applyAuth();loadAll();toast("تم حذف حسابك ✔")}
+  catch(x){toast("تعذر الحذف: "+x.message)}
+};
+
+$("save").onclick=async()=>{
+  const t=$("ft").value.trim(),n=$("fn").value.trim(),ph=$("fph").value.trim(),d=$("fd").value.trim();
+  if(!t||!n||!d)return toast("املأ العنوان والاسم والوصف");
+  if(!okPh(ph))return toast("رقم الهاتف غير صحيح (مثال: 0555123456)");
+  $("save").disabled=true;
+  try{await api("/rest/v1/listings",{method:"POST",body:{title:t,name:n,category:$("fc").value,wilaya:$("fw").value,price:+$("fp").value||0,price_type:$("ft2").value,phone:ph,description:d,origin:$("fo").value}});
+    ["ft","fn","fp","fph","fd"].forEach(i=>$(i).value="");cat="";WF="";$("wf").value="";go("home");toast("تم النشر ✔")}
+  catch(x){toast(x.message);if(/اشتراك/.test(x.message)){go("mine");setTimeout(()=>{const m=$("memBox");if(m)m.scrollIntoView()},400)}}
+  $("save").disabled=false;
+};
+$("rsave").onclick=async()=>{
+  const t=$("rt").value.trim(),ph=$("rph").value.trim();
+  if(!t)return toast("اكتب ماذا تحتاج");if(!okPh(ph))return toast("رقم الهاتف غير صحيح");
+  $("rsave").disabled=true;
+  try{await api("/rest/v1/requests",{method:"POST",body:{title:t,category:$("rc").value,wilaya:$("rw").value,budget:+$("rb").value||0,phone:ph}});
+    ["rt","rb","rph"].forEach(i=>$(i).value="");toast("تم نشر طلبك ✔");loadAll()}
+  catch(x){toast(x.message)}
+  $("rsave").disabled=false;
+};
+$("lo").onclick=()=>{LO=!LO;$("lo").style.background=LO?"var(--a)":"";render()};
+$("loc").onclick=()=>{
+  if(!navigator.geolocation)return toast("جهازك لا يدعم تحديد الموقع");
+  toast("جارٍ تحديد موقعك...");
+  navigator.geolocation.getCurrentPosition(pos=>{
+    const la=pos.coords.latitude,lo=pos.coords.longitude;let best=0,bd=1e9;
+    XY.forEach((c,i)=>{const dy=c[0]-la,dx=(c[1]-lo)*Math.cos(la*Math.PI/180),d=dx*dx+dy*dy;if(d<bd){bd=d;best=i}});
+    WF=WIL[best];$("wf").value=WF;render();toast("أقرب ولاية: "+short(WIL[best]));
+  },()=>toast("تعذر تحديد الموقع. اسمح بالإذن أو اختر الولاية يدوياً"),{timeout:10000});
+};
+
+$("fc").innerHTML=opt(CATS);$("rc").innerHTML=opt(CATS);
+$("fw").innerHTML=opt(WIL);$("rw").innerHTML=opt(WIL);
+$("wf").innerHTML='<option value="">كل الولايات</option>'+opt(WIL);
+$("ew").innerHTML='<option value="">كل الولايات</option>'+opt(WIL);$("ew").onchange=e=>{EW=e.target.value;renderEconomy()};
+checkRecovery();renderCats();applyAuth();renderEconomy();loadAll();if(REC)go("mine");
+if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js"));
+</script><script src="session.js"></script>
 <script src="premium.js"></script>
 <script src="admin.js"></script>
 <script src="reset.js"></script>
 <script src="banner.js"></script>
 <script src="photos.js"></script>
 <script src="bids.js"></script></body></html>
-
+</body>
+</html>
