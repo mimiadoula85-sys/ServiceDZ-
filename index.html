@@ -181,6 +181,7 @@ nav span{font-size:24px}
     <div class="btns" style="margin-top:14px"><button class="btn b1" id="setpw">حفظ كلمة السر</button></div></div>
   <div id="userBox">
     <div class="box"><div class="meta" id="who"></div><div class="btns"><button class="btn b3" id="logout">تسجيل الخروج</button></div></div>
+    <div class="box" id="coPanel" style="display:none"></div>
     <h2>🤝 السُّومات والاتفاقات</h2><div id="offBox"></div>
     <h2>🏪 اشتراك التاجر</h2><div class="box" id="memBox"></div>
     <h2>إعلاناتي</h2><div id="mine"></div>
@@ -227,7 +228,7 @@ const dt=x=>x?new Date(x).toLocaleString("ar-DZ"):"—";
 
 let SES=null;try{SES=JSON.parse(localStorage.getItem("sdz_ses")||"null")}catch(e){}
 const uidOf=()=>SES&&SES.user&&SES.user.id;
-let PROF=null,DUES=[],QRAW=[],QN=[],SC=new Map(),RATED=new Set(),LO=false,EW="",REC=false,L=[],R=[],OFF=[],SUBS=[],FEAT=new Set(),SET={},cat="",Q="",WF="",loaded=false,loadErr="";
+let PROF=null,DUES=[],QRAW=[],QN=[],SC=new Map(),VER=new Set(),RATED=new Set(),LO=false,EW="",REC=false,L=[],R=[],OFF=[],SUBS=[],FEAT=new Set(),SET={},cat="",Q="",WF="",loaded=false,loadErr="";
 const saveSes=()=>{try{SES?localStorage.setItem("sdz_ses",JSON.stringify(SES)):localStorage.removeItem("sdz_ses")}catch(e){}};
 const AR_ERR={"Invalid login credentials":"البريد أو كلمة السر غير صحيحة","User already registered":"هذا البريد مسجل مسبقاً، اضغط دخول","Email not confirmed":"يجب تأكيد بريدك أولاً","Password should be at least 6 characters":"كلمة السر 6 أحرف على الأقل","Unable to validate email address: invalid format":"صيغة البريد غير صحيحة","not allowed":"غير مسموح لك بهذا الإجراء"};
 
@@ -235,7 +236,7 @@ const isCo=()=>!!PROF&&PROF.account_type==="company";
 async function ensureProfile(){
   let pp=null;try{pp=JSON.parse(localStorage.getItem("sdz_pp")||"null")}catch(e){}
   const b=pp&&pp.t==="company"?{account_type:"company",entity_kind:pp.k,company_name:pp.n,commercial_register:pp.r}:{account_type:"trader"};
-  try{await api("/rest/v1/profiles",{method:"POST",body:b});try{localStorage.removeItem("sdz_pp")}catch(e){}PROF=((await api("/rest/v1/profiles?select=*"))||[])[0]||null}catch(e){PROF=null}
+  try{await api("/rest/v1/user_profiles",{method:"POST",body:b});try{localStorage.removeItem("sdz_pp")}catch(e){}PROF=((await api("/rest/v1/user_profiles?select=*"))||[])[0]||null}catch(e){PROF=null}
 }
 function setSes(d){SES={access_token:d.access_token,refresh_token:d.refresh_token,expires_at:Math.floor(Date.now()/1000)+(d.expires_in||3600),user:d.user};saveSes()}
 async function raw(path,{method="GET",body,auth=true}={}){
@@ -262,11 +263,12 @@ async function loadAll(){
   try{R=(await getList("/rest/v1/requests?select=*&order=created_at.desc&limit=100"))||[]}catch(e){R=[]}
   try{const f=await raw("/rest/v1/rpc/featured_users",{method:"POST",body:{},auth:false});FEAT=new Set((f||[]).map(x=>x.user_id))}catch(e){FEAT=new Set()}
   try{SC=new Map(((await raw("/rest/v1/rpc/trader_scores",{method:"POST",body:{},auth:false}))||[]).map(x=>[x.user_id,x]))}catch(e){SC=new Map()}
+  try{VER=new Set(((await raw("/rest/v1/rpc/verified_entities",{method:"POST",body:{},auth:false}))||[]).map(x=>x.user_id))}catch(e){VER=new Set()}
   if(!Object.keys(SET).length){try{const s=await raw("/rest/v1/app_settings?select=key,value",{auth:false});SET=Object.fromEntries((s||[]).map(x=>[x.key,x.value]))}catch(e){}}
   if(SES&&!REC){
     try{OFF=(await api("/rest/v1/offers?select=*&order=created_at.desc&limit=100"))||[]}catch(e){OFF=[]}
     try{SUBS=(await api("/rest/v1/subscriptions?select=*&order=created_at.desc&limit=20"))||[]}catch(e){SUBS=[]}
-    try{PROF=((await api("/rest/v1/profiles?select=*"))||[])[0]||null}catch(e){PROF=null}
+    try{PROF=((await api("/rest/v1/user_profiles?select=*"))||[])[0]||null}catch(e){PROF=null}
     if(!PROF)await ensureProfile();
     try{QRAW=(await api("/rest/v1/quotes?select=*&order=created_at.desc&limit=200"))||[]}catch(e){QRAW=[]}
     QN=QRAW.map(normQ);
@@ -340,9 +342,22 @@ function memHtml(){
   <div class="btns"><button class="btn b1" id="subBtn">إرسال طلب الاشتراك</button></div>`;
   return h;
 }
+function renderCoPanel(){
+  const el=$("coPanel");if(!el)return;
+  if(!isCo()){el.style.display="none";return}
+  const uid=uidOf(),my=R.filter(r=>r.user_id===uid),qin=QN.filter(q=>q.buyer_id===uid&&q.status==="pending").length,
+    done=OFF.filter(o=>o.received_at).length+QN.filter(q=>q.received_at).length,due=DUES.reduce((a,d)=>a+Number(d.fee||0),0);
+  el.style.display="block";
+  el.innerHTML=`<h3 style="font-size:16px">🏢 ${esc(PROF.company_name||"جهتك")}</h3>
+  <div class="meta">${esc(PROF.entity_kind||"شركة/مؤسسة")} · السجل: <span dir="ltr">${esc(PROF.commercial_register||"—")}</span></div>
+  <div class="st">${PROF.verified?"✔ جهة موثّقة":"⏳ بانتظار توثيق السجل من الإدارة"}</div>
+  <div class="pulse"><div class="metric"><b>${my.length}</b><span>طلبات منشورة</span></div><div class="metric"><b>${qin}</b><span>عروض أسعار بانتظارك</span></div><div class="metric"><b>${done}</b><span>صفقات مكتملة</span></div><div class="metric"><b>${due?fmt(due):"0"}</b><span>رسوم مستحقة</span></div></div>
+  <div class="btns"><button class="btn b1" data-go="ask">➕ نشر احتياج</button><button class="btn b3" data-go="economy">📊 فرص السوق</button></div>`;
+}
 function renderMine(){
   const uid=uidOf();
   if(!uid)return;
+  renderCoPanel();
   const inc=OFF.filter(o=>o.seller_id===uid),out=OFF.filter(o=>o.buyer_id===uid);
   const oh=(inc.length?'<h3 style="font-size:15px;margin-top:10px">واردة إليك</h3>'+inc.map(o=>offerCard(o,uid)).join(""):"")+(out.length?'<h3 style="font-size:15px;margin-top:14px">أرسلتَها</h3>'+out.map(o=>offerCard(o,uid)).join(""):"");
   const qin=QN.filter(o=>o.buyer_id===uid),qout=QN.filter(o=>o.seller_id===uid);
@@ -401,7 +416,7 @@ function contractOf(o){
   return t.join("\n");
 }
 const normQ=q=>({id:q.id,_q:1,request_id:q.request_id,seller_id:q.supplier_id,buyer_id:q.requester_id,seller_name:q.supplier_name,seller_phone:q.supplier_phone,buyer_name:q.requester_name||"صاحب الطلب",buyer_phone:q.requester_phone,listing_title:q.request_title,listing_price:q.request_budget,listing_wilaya:q.request_wilaya,amount:q.amount,note:q.note,delivery_days:q.delivery_days,status:q.status,created_at:q.created_at,decided_at:q.decided_at,seller_confirmed_at:q.seller_confirmed_at,buyer_confirmed_at:q.buyer_confirmed_at,delivered_at:q.delivered_at,received_at:q.received_at});
-const scoreOf=u=>{const x=SC.get(u);return x?`<span class="tag">⭐ ${x.avg} · ${x.n} تقييم</span>`:""};
+const scoreOf=u=>{const x=SC.get(u),v=VER.has(u)?`<span class="tag">✔ جهة موثّقة</span> `:"";return v+(x?`<span class="tag">⭐ ${x.avg} · ${x.n} تقييم</span>`:"")};
 const dealOf=id=>OFF.find(x=>x.id===id)||QN.find(x=>x.id===id);
 async function qRespond(id,acc){
   try{await api("/rest/v1/rpc/respond_quote",{method:"POST",body:{p_id:id,p_accept:acc}});toast(acc?"تم اختيار العرض ✔":"تم الرفض");await loadAll();if(acc)showContract(id);else closeSheet()}
@@ -517,7 +532,7 @@ function futureAction(type){
 }
 document.body.addEventListener("click",e=>{
   const f=e.target.closest("[data-future]"); if(f) futureAction(f.dataset.future);
-  const role=e.target.closest("[data-role]"); if(role) toast("حساب "+({company:"الشركة",institution:"المؤسسة",public:"الهيئة",supplier:"المورّد/المهني"}[role.dataset.role]||"")+" سيُفتح في المرحلة القادمة");
+  const role=e.target.closest("[data-role]"); if(role) {go("mine");toast(isCo()?"هذه لوحة جهتك":"لإنشاء حساب جهة: اختر نوع الحساب (شركة أو مؤسسة) عند التسجيل")};
 });
 
 /* clicks */
@@ -631,8 +646,7 @@ $("wf").innerHTML='<option value="">كل الولايات</option>'+opt(WIL);
 $("ew").innerHTML='<option value="">كل الولايات</option>'+opt(WIL);$("ew").onchange=e=>{EW=e.target.value;renderEconomy()};
 checkRecovery();renderCats();applyAuth();renderEconomy();loadAll();if(REC)go("mine");
 if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js"));
-</script><script src="session.js"></script>
-<script src="premium.js"></script>
+</script>pt src="premium.js"></script>
 <script src="admin.js"></script>
 <script src="reset.js"></script>
 <script src="banner.js"></script>
